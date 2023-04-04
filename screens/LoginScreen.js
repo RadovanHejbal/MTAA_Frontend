@@ -1,10 +1,30 @@
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View, Pressable, TextInput, Image } from 'react-native';
-import { useState } from 'react';
+import { useState, useContext } from 'react';
+import colors from '../variables/colors';
+import url from '../variables/url';
+import Axios from 'axios';
+import { AuthContext } from '../contextapi/AuthContext';
 
-export default function LoginScreen({ navigation }) {
-  const [getEnteredUsername, setEnteredUsername] = useState('');
-  const [getEnteredPassword, setEnteredPassword] = useState('');
+const LoginScreen = ({ navigation }) => {
+  const [enteredUsername, setEnteredUsername] = useState('');
+  const [enteredPassword, setEnteredPassword] = useState('');
+  const auth = useContext(AuthContext);
+
+  function loginHandler() {
+    Axios.post(`${url}/users/login`, {
+      username: enteredUsername,
+      password: enteredPassword
+    })
+    .then(response => {
+      console.log(response.data);
+      auth.login(response.data);
+      auth.logout();
+    })
+    .catch(error => {
+      console.log(error);
+    });
+  }
 
   return (
     <View style={styles.LoginContainer}>
@@ -18,13 +38,10 @@ export default function LoginScreen({ navigation }) {
         {/* Login */}
         <Pressable style={({pressed}) => [
         {
-          backgroundColor: pressed ? 'black' : '#70B46C',
+          backgroundColor: pressed ? 'black' : colors.green,
         }, styles.Button]}  
-        onPress={() => {
-          console.log("Username: " + getEnteredUsername);
-          console.log("Password: " + getEnteredPassword);
-        }}>
-          <Text style={{color: '#E4E4E4'}}>Login</Text>
+        onPress={loginHandler}>
+          <Text style={{color: colors.lightgrey}}>Login</Text>
         </Pressable>
 
         {/* Signup */}
@@ -33,7 +50,7 @@ export default function LoginScreen({ navigation }) {
             backgroundColor: pressed ? 'black' : 'transparent',
           }, styles.Button]}
           onPress={() => navigation.navigate("SignUp")}>
-          <Text style={{color: '#E4E4E4'}}>Sign up</Text>
+          <Text style={{color: colors.lightgrey}}>Sign up</Text>
         </Pressable>
       </View>
 
@@ -42,12 +59,14 @@ export default function LoginScreen({ navigation }) {
   );
 }
 
+export default LoginScreen;
+
 const styles = StyleSheet.create({
   LoginContainer: {
     height: '100%',
     width: '100%',
     justifyContent: 'flex-end',
-    backgroundColor: '#70B46C'
+    backgroundColor: colors.green
   },
   Logo: {
     resizeMode: 'contain',
@@ -63,14 +82,14 @@ const styles = StyleSheet.create({
     borderTopLeftRadius: 30,
     borderTopRightRadius: 30,
     justifyContent: 'flex-start',
-    backgroundColor: '#4B4843'
+    backgroundColor: colors.darkgrey
   },
   Input: {
     margin: '3%',
     padding: '3%',
     borderRadius: 15,
-    color: 'black',
-    backgroundColor: '#E4E4E4'
+    color: colors.black,
+    backgroundColor: colors.lightgrey
   },
   Text:{
     marginBottom: '3%',
@@ -79,7 +98,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     fontStyle: 'italic',
     textAlign: 'center',
-    color: '#70B46C'
+    color: colors.green
   },
   Button: {
     margin: '3%',

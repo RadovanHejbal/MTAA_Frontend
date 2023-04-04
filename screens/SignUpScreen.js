@@ -1,6 +1,7 @@
 import { setStatusBarBackgroundColor, StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View, Pressable, TextInput, Image } from 'react-native';
 import { useState } from 'react';
+import colors from '../ui/colors';
 
 export default function SignUpScreen({ navigation }) {
   const [selectedButton, setSelectedButton] = useState(null);
@@ -63,7 +64,7 @@ const styles = StyleSheet.create({
     padding: '10%',
     marginTop: '10%',
     justifyContent: 'flex-start',
-    backgroundColor: '#E4E4E4'
+    backgroundColor: colors.lightgrey
   },
   Text: {
     marginBottom: '3%',
@@ -72,13 +73,13 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     fontStyle: 'italic',
     textAlign: 'center',
-    color: 'black'
+    color: colors.black
   }, 
   Input: {
     padding: '3%',
     margin: '5%',
     borderBottomWidth: 2,
-    borderBottomColor: '#70B46C'
+    borderBottomColor: colors.green
   },
   Weight_Height: {
     flexDirection: "row",
@@ -95,7 +96,7 @@ const styles = StyleSheet.create({
   },
   SelectedButton: {
     borderBottomWidth: 5,
-    borderBottomColor: '#70B46C',
+    borderBottomColor: colors.green,
   },
   ImageButtonContainer: {
     justifyContent: 'flex-start',
