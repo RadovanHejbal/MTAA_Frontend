@@ -1,29 +1,57 @@
-import { setStatusBarBackgroundColor, StatusBar } from 'expo-status-bar';
+import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View, Pressable, TextInput, Image } from 'react-native';
 import { useState } from 'react';
-import colors from '../ui/colors';
+import Axios from 'axios';
+import colors from '../variables/colors';
 
 export default function SignUpScreen({ navigation }) {
   const [selectedButton, setSelectedButton] = useState(null);
-  const [getEnteredFullname, setEnteredFullname] = useState('');
-  const [getEnteredUsername, setEnteredUsername] = useState('');
-  const [getEnteredEmail, setEnteredEmail] = useState('');
-  const [getEnteredPassword, setEnteredPassword] = useState('');
-  const [getEnteredWeight, setEnteredWeight] = useState(null);
-  const [getEnteredHeight, setEnteredHeight] = useState(null);
-  const [getEnteredGender, setEnteredGender] = useState(null);
+  const [firstname, setFirstname] = useState('');
+  const [lastname, setLastname] = useState('');
+  const [username, setUsername] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [weight, setWeight] = useState(null);
+  const [height, setHeight] = useState(null);
+  const [gender, setGender] = useState(null);
+
+  function signupHandler() {
+    if(firstname.trim() == "" || lastname.trim() == "" || username.trim() == "" || email.trim() == "" || password.trim() == "" || !gender || !height || !weight ) {
+      console.log("VYPLN VSETKO BRASKO");
+      return;
+    }
+    Axios.post('/users/registration', {
+      username,
+      password,
+      email,
+      weight,
+      height,
+      gender,
+      firstname,
+      lastname,
+      gender
+    }).then(response => {
+      console.log("success");
+      navigation.navigate("Login");
+    }).catch(err => {
+      console.log(err);
+    })
+  }
 
   return (
     <View style={styles.SignUpContainer}>
       <Text style={styles.Text}>SIGN UP</Text>
       
-      <TextInput style={styles.Input} placeholder='Full name' onChangeText={(enteredFullname) => {setEnteredFullname(enteredFullname)}}/>
-      <TextInput style={styles.Input} placeholder='Username' onChangeText={(enteredUsername) => {setEnteredUsername(enteredUsername)}}/>
-      <TextInput style={styles.Input} placeholder='Email' onChangeText={(enteredEmail) => {setEnteredEmail(enteredEmail)}}/>
-      <TextInput style={styles.Input} placeholder='Password' onChangeText={(enteredPassword) => {setEnteredPassword(enteredPassword)}}/>
       <View style={styles.Weight_Height}>
-        <TextInput style={[styles.Input, {width: '30%', flex: 1}]} placeholder='Weight' onChangeText={(enteredWeight) => {setEnteredWeight(enteredWeight)}}/>
-        <TextInput style={[styles.Input, {width: '30%', flex: 1}]} placeholder='Height' onChangeText={(enteredHeight) => {setEnteredHeight(enteredHeight)}}/>
+        <TextInput style={[styles.Input, {width: '30%', flex: 1}]} placeholder='First name' onChangeText={(enteredFullname) => {setFirstname(enteredFullname)}}/>
+        <TextInput style={[styles.Input, {width: '30%', flex: 1}]} placeholder='Last name' onChangeText={(enteredFullname) => {setLastname(enteredFullname)}}/>
+      </View>
+      <TextInput style={styles.Input} placeholder='Username' onChangeText={(enteredUsername) => {setUsername(enteredUsername)}}/>
+      <TextInput style={styles.Input} placeholder='Email' onChangeText={(enteredEmail) => {setEmail(enteredEmail)}}/>
+      <TextInput style={styles.Input} placeholder='Password' onChangeText={(enteredPassword) => {setPassword(enteredPassword)}}/>
+      <View style={styles.Weight_Height}>
+        <TextInput style={[styles.Input, {width: '30%', flex: 1}]} placeholder='Weight' onChangeText={(enteredWeight) => {setWeight(enteredWeight)}}/>
+        <TextInput style={[styles.Input, {width: '30%', flex: 1}]} placeholder='Height' onChangeText={(enteredHeight) => {setHeight(enteredHeight)}}/>
       </View>
 
       {/* WEIGHT AND HEIGHT BUTTON */}
@@ -32,7 +60,7 @@ export default function SignUpScreen({ navigation }) {
           style={[styles.Button, selectedButton === 1 && styles.SelectedButton]}
           onPress={() => {
             setSelectedButton(1);
-            setEnteredGender('M');
+            setGender('m');
           }}>
           <Text style={{textAlign: 'center'}}>Male</Text>
         </Pressable>
@@ -40,7 +68,7 @@ export default function SignUpScreen({ navigation }) {
           style={[styles.Button, selectedButton === 2 && styles.SelectedButton]}
           onPress={() => { 
             setSelectedButton(2);
-            setEnteredGender('F');
+            setGender('f');
           }}>
           <Text style={{textAlign: 'center'}}>Female</Text>
         </Pressable>
@@ -48,9 +76,12 @@ export default function SignUpScreen({ navigation }) {
 
       {/* IMAGE BUTTON */}
       <View style={styles.ImageButtonContainer}>
-        <Pressable onPress={() => console.log(getEnteredFullname + "\n" + getEnteredUsername + "\n" + getEnteredEmail + "\n" + getEnteredPassword + "\n" + getEnteredWeight + "\n" + getEnteredHeight + "\n" + getEnteredGender)} imageSource={require('../images/Icon.png')}> 
+        <Pressable onPress={signupHandler} imageSource={require('../images/Icon.png')}> 
           <Image style={styles.Image} source={require('../images/Icon.png')}/>
         </Pressable>
+      </View>
+      <View style={styles.HaveAccount}>
+        <Pressable onPress={() => navigation.navigate("Login")}><Text>I already have an account! Log in!</Text></Pressable>
       </View>
       <StatusBar style='auto'/>
     </View>
@@ -69,7 +100,6 @@ const styles = StyleSheet.create({
   Text: {
     marginBottom: '3%',
     fontSize: 30,
-    fontFamily: 'sans-serif',
     fontWeight: 'bold',
     fontStyle: 'italic',
     textAlign: 'center',
@@ -99,12 +129,15 @@ const styles = StyleSheet.create({
     borderBottomColor: colors.green,
   },
   ImageButtonContainer: {
-    justifyContent: 'flex-start',
     flex: 1,
   },
   Image: {
     resizeMode: 'center',
     width: '100%',
     height: '100%',
+  },
+  HaveAccount: {
+    flex: 1,
+    alignItems: 'center'
   }
 });

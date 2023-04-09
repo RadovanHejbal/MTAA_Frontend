@@ -11,15 +11,14 @@ const LoginScreen = ({ navigation }) => {
   const [enteredPassword, setEnteredPassword] = useState('');
   const auth = useContext(AuthContext);
 
-  function loginHandler() {
+  async function loginHandler() {
     Axios.post(`${url}/users/login`, {
       username: enteredUsername,
       password: enteredPassword
     })
     .then(response => {
-      console.log(response.data);
       auth.login(response.data);
-      auth.logout();
+      navigation.navigate("Home");
     })
     .catch(error => {
       console.log(error);
@@ -94,7 +93,6 @@ const styles = StyleSheet.create({
   Text:{
     marginBottom: '3%',
     fontSize: 30,
-    fontFamily: 'sans-serif',
     fontWeight: 'bold',
     fontStyle: 'italic',
     textAlign: 'center',

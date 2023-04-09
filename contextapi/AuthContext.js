@@ -16,11 +16,9 @@ const AuthContextProvider = (props) => {
   const [isAdmin, setIsAdmin] = useState(false);
 
   function loginHandler(data) {
-    console.log("SOM TU");
-    setUser(data.user);
-    setDaily(data.daily);
-    setIsCoach(data.isCoach);
-    setIsAdmin(data.isAdmin);
+    setUser(data);
+    if(data.role == "Admin") setIsAdmin(true);
+    else if(data.role = "coach") setIsCoach(true);
   };
 
   const logoutHandler = () => {
