@@ -13,10 +13,11 @@ export default function SignUpScreen({ navigation }) {
   const [password, setPassword] = useState('');
   const [weight, setWeight] = useState(null);
   const [height, setHeight] = useState(null);
+  const [age, setAge] = (null);
   const [gender, setGender] = useState(null);
 
   function signupHandler() {
-    if(firstname.trim() == "" || lastname.trim() == "" || username.trim() == "" || email.trim() == "" || password.trim() == "" || !gender || !height || !weight ) {
+    if(firstname.trim() == "" || lastname.trim() == "" || username.trim() == "" || email.trim() == "" || password.trim() == "" || !gender || !height || !weight || !age) {
       console.log("VYPLN VSETKO BRASKO");
       return;
     }
@@ -29,7 +30,8 @@ export default function SignUpScreen({ navigation }) {
       gender,
       firstname,
       lastname,
-      gender
+      gender,
+      age
     }).then(response => {
       console.log("success");
       navigation.navigate("Login");
@@ -53,6 +55,7 @@ export default function SignUpScreen({ navigation }) {
         <TextInput style={[styles.Input, {width: '30%', flex: 1}]} placeholder='Weight' onChangeText={(enteredWeight) => {setWeight(enteredWeight)}}/>
         <TextInput style={[styles.Input, {width: '30%', flex: 1}]} placeholder='Height' onChangeText={(enteredHeight) => {setHeight(enteredHeight)}}/>
       </View>
+      <TextInput style={[styles.Input, {width: '30%', flex: 1}]} placeholder='Age' onChangeText={(enteredHeight) => {setAge(enteredHeight)}}/>
 
       {/* WEIGHT AND HEIGHT BUTTON */}
       <View style={styles.ButtonContainer}>
