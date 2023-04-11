@@ -4,7 +4,7 @@ import { useState } from 'react';
 import Axios from 'axios';
 import colors from '../variables/colors';
 
-export default function SignUpScreen({ navigation }) {
+const SignUpScreen = ({ navigation }) => {
   const [selectedButton, setSelectedButton] = useState(null);
   const [firstname, setFirstname] = useState('');
   const [lastname, setLastname] = useState('');
@@ -13,7 +13,7 @@ export default function SignUpScreen({ navigation }) {
   const [password, setPassword] = useState('');
   const [weight, setWeight] = useState(null);
   const [height, setHeight] = useState(null);
-  const [age, setAge] = (null);
+  const [age, setAge] = useState(null);
   const [gender, setGender] = useState(null);
 
   function signupHandler() {
@@ -90,6 +90,8 @@ export default function SignUpScreen({ navigation }) {
     </View>
   );
 }
+
+export default SignUpScreen;
 
 const styles = StyleSheet.create({
   SignUpContainer: {

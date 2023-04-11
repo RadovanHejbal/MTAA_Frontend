@@ -11,7 +11,8 @@ const LoginScreen = ({ navigation }) => {
   const [enteredPassword, setEnteredPassword] = useState('');
   const auth = useContext(AuthContext);
 
-  async function loginHandler() {
+  function loginHandler() {
+    console.log("AHOj");
     Axios.post(`${url}/users/login`, {
       username: enteredUsername,
       password: enteredPassword
