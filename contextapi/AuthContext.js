@@ -2,16 +2,19 @@ import React, { useState } from "react";
 
 export const AuthContext = React.createContext({
   user: null,
-  daily: null,
+  dailyMeals: null,
+  dailyActivities: null,
   isCoach: false,
   isAdmin: false,
   login: () => {},
   logout: () => {},
+  daily: () => {}
 });
 
 const AuthContextProvider = (props) => {
   const [user, setUser] = useState(null);
-  const [daily, setDaily] = useState(null);
+  const [dailyMeals, setDailyMeals] = useState(null);
+  const [dailyActivities, setDailyActivities] = useState(null);
   const [isCoach, setIsCoach] = useState(false);
   const [isAdmin, setIsAdmin] = useState(false);
 
@@ -21,23 +24,29 @@ const AuthContextProvider = (props) => {
     else if(data.role = "coach") setIsCoach(true);
   };
 
-  const logoutHandler = () => {
-    console.log("LOGOUT");
+  function logoutHandler() {
     setUser(null);
     setDaily(null);
     setIsCoach(false);
     setIsAdmin(false);
   };
 
+  function loginDailyHandler(data) {
+    setDailyMeals(data.meals);
+    setDailyActivities(data.activities);
+  }
+
   return (
     <AuthContext.Provider
       value={{
         login: loginHandler,
         logout: logoutHandler,
+        daily: loginDailyHandler,
         isAdmin,
         isCoach,
         user,
-        daily,
+        dailyMeals,
+        dailyActivities
       }}
     >
       {props.children}

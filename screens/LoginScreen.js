@@ -12,14 +12,13 @@ const LoginScreen = ({ navigation }) => {
   const auth = useContext(AuthContext);
 
   function loginHandler() {
-    console.log("AHOj");
     Axios.post(`${url}/users/login`, {
       username: enteredUsername,
       password: enteredPassword
     })
     .then(response => {
       auth.login(response.data);
-      navigation.navigate("Home");
+      navigation.navigate("Loading");
     })
     .catch(error => {
       console.log(error);

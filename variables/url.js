@@ -1,3 +1,3 @@
-const url = 'http://147.175.161.215:8000';
+const url = 'http://192.168.1.18:8000';
 
 module.exports = url;
