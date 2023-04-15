@@ -34,7 +34,7 @@ const NavBar = ({ navigation }) => {
         </Pressable>
       </View>
       <View style={styles.item}>
-        <Pressable onPress={() => navigation.navigate("Forum")}>
+        <Pressable onPress={() => navigation.navigate("Forums")}>
           <View style={styles.icon}>
             <MaterialIcons name="forum" size={24} color="white" />
           </View>

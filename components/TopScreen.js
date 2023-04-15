@@ -1,27 +1,28 @@
-import { View, Text, StyleSheet } from "react-native";
+import { View, Text, StyleSheet, Pressable } from "react-native";
 import { MaterialIcons } from '@expo/vector-icons';
-import colors from "../variables/colors";
+import colors, { black } from "../variables/colors";
+import { FontAwesome } from '@expo/vector-icons'; 
 
-const TopScreen = () => {
+const TopScreen = ( {navigation} ) => {
     return <View style={styles.container}>
-        <View style={styles.item}>
-            <View style={styles.logo}></View>
-        </View>
+        <Pressable onPress={() => navigation.navigate("Profile")} style={styles.item}>
+            <FontAwesome name="user" size={48} color="black" />
+        </Pressable>
         <View style={styles.middleItem}>
             <Text style={styles.middleText}>FitMe</Text>
         </View>
-        <View style={styles.item}>
+        <Pressable onPress={() => navigation.navigate("Fitness")} style={styles.item}>
             <MaterialIcons name="fitness-center" size={48} color="black" />
-        </View>
+        </Pressable>
     </View>
 }
 
 const styles = StyleSheet.create({
     container: {
         flexDirection: 'row',
+        alignItems: 'flex-end',
         width: '100%',
-        height: '9%',
-        alignItems: 'flex-end'
+        height: '10%',
     },
     middleItem: {
         flex: 5,
@@ -31,23 +32,15 @@ const styles = StyleSheet.create({
         borderBottomColor: colors.green
     },
     middleText: {
-        fontSize: 40,
-        alignItems: 'center'
+        fontSize: 30,
+        alignItems: 'center',
+        fontStyle: 'italic',
+        fontWeight: 'bold'
     },
     item: {
         flex: 2,
-        padding: 8,
         justifyContent: 'center',
         alignItems: 'center'
-    },
-    gyms: {
-        flex: 1
-    },
-    logo: {
-        width: 48,
-        height: 48,
-        borderRadius: '50%',
-        backgroundColor: 'black',
     },
 })
 

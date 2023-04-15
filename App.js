@@ -7,6 +7,12 @@ import HomeScreen from './screens/HomeScreen';
 import LoadingScreen from "./screens/LoadingScreen";
 import SearchMeal from "./screens/SearchMeal";
 import MealDetails from "./screens/MealDetails";
+import RecepiesScreen from "./screens/RecepiesScreen";
+import ForumsScreen from "./screens/ForumsScreen";
+import CoachesScreen from "./screens/CoachesScreen";
+import ProfileScreen from "./screens/ProfileScreen"
+import FitnessCentrumsScreen from "./screens/FitnessCentrumsScreen";
+import ForumSectionScreen from "./screens/ForumSectionScreen";
 
 const Stack = createNativeStackNavigator();
 
@@ -21,6 +27,12 @@ export default function App() {
           <Stack.Screen name="Home" component={HomeScreen} />
           <Stack.Screen name="SearchMeal" component={SearchMeal} />
           <Stack.Screen name="MealDetails" component={MealDetails} />
+          <Stack.Screen name="Recepies" component={RecepiesScreen} />
+          <Stack.Screen name="Forums" component={ForumsScreen} />
+          <Stack.Screen name="ForumSection" component={ForumSectionScreen} options={{title: "",}} />
+          <Stack.Screen name="Coaches" component={CoachesScreen} /> 
+          <Stack.Screen name="Profile" component={ProfileScreen} />
+          <Stack.Screen name="Fitness" component={FitnessCentrumsScreen} />
         </Stack.Navigator>
       </NavigationContainer>
     </AuthContextProvider>

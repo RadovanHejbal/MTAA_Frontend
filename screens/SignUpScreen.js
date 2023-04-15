@@ -3,9 +3,10 @@ import { StyleSheet, Text, View, Pressable, TextInput, Image } from 'react-nativ
 import { useState } from 'react';
 import Axios from 'axios';
 import colors from '../variables/colors';
+import url from '../variables/url';
 
 const SignUpScreen = ({ navigation }) => {
-  const [selectedButton, setSelectedButton] = useState(null);
+  const [selectedButton, setSelectedButton] = useState(1);
   const [firstname, setFirstname] = useState('');
   const [lastname, setLastname] = useState('');
   const [username, setUsername] = useState('');
@@ -21,17 +22,17 @@ const SignUpScreen = ({ navigation }) => {
       console.log("VYPLN VSETKO BRASKO");
       return;
     }
-    Axios.post('/users/registration', {
-      username,
-      password,
-      email,
-      weight,
-      height,
-      gender,
-      firstname,
-      lastname,
-      gender,
-      age
+    Axios.post(`${url}/users/registration`, {
+      username: username,
+      password: password,
+      email: email,
+      weight: weight,
+      height: height,
+      gender: gender,
+      firstname: firstname,
+      lastname: lastname,
+      gender: gender,
+      age: age
     }).then(response => {
       console.log("success");
       navigation.navigate("Login");
@@ -55,7 +56,7 @@ const SignUpScreen = ({ navigation }) => {
         <TextInput style={[styles.Input, {width: '30%', flex: 1}]} placeholder='Weight' onChangeText={(enteredWeight) => {setWeight(enteredWeight)}}/>
         <TextInput style={[styles.Input, {width: '30%', flex: 1}]} placeholder='Height' onChangeText={(enteredHeight) => {setHeight(enteredHeight)}}/>
       </View>
-      <TextInput style={[styles.Input, {width: '30%', flex: 1}]} placeholder='Age' onChangeText={(enteredHeight) => {setAge(enteredHeight)}}/>
+      <TextInput style={[styles.Input, {width: '30%'}]} placeholder='Age' onChangeText={(enteredHeight) => {setAge(enteredHeight)}}/>
 
       {/* WEIGHT AND HEIGHT BUTTON */}
       <View style={styles.ButtonContainer}>
@@ -84,7 +85,7 @@ const SignUpScreen = ({ navigation }) => {
         </Pressable>
       </View>
       <View style={styles.HaveAccount}>
-        <Pressable onPress={() => navigation.navigate("Login")}><Text>I already have an account! Log in!</Text></Pressable>
+        <Pressable onPress={() => navigation.navigate("Login")}><Text style={styles.AlreadyHave}>I already have an account</Text></Pressable>
       </View>
       <StatusBar style='auto'/>
     </View>
@@ -112,7 +113,7 @@ const styles = StyleSheet.create({
   }, 
   Input: {
     padding: '3%',
-    margin: '5%',
+    margin: '3%',
     borderBottomWidth: 2,
     borderBottomColor: colors.green
   },
@@ -134,6 +135,7 @@ const styles = StyleSheet.create({
     borderBottomColor: colors.green,
   },
   ImageButtonContainer: {
+    marginTop: '10%',
     flex: 1,
   },
   Image: {
@@ -144,5 +146,12 @@ const styles = StyleSheet.create({
   HaveAccount: {
     flex: 1,
     alignItems: 'center'
+  },
+  AlreadyHave: {
+    marginTop: '4%',
+    fontStyle: 'italic',
+    textAlign: 'center',
+    color: colors.darkgrey,
+    textDecorationLine: 'underline'
   }
 });

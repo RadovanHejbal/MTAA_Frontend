@@ -18,7 +18,7 @@ const HomeScreen = ({ navigation }) => {
 
   return (
     <SafeAreaView style={styles.container}>
-      <TopScreen />
+      <TopScreen navigation={navigation} />
       <View>
         <View style={styles.dayInfoContainer}>
           <DayInfo
