@@ -21,7 +21,7 @@ const AuthContextProvider = (props) => {
   function loginHandler(data) {
     setUser(data);
     if(data.role == "Admin") setIsAdmin(true);
-    else if(data.role = "coach") setIsCoach(true);
+    else if(data.role == "coach") setIsCoach(true);
   };
 
   function logoutHandler() {

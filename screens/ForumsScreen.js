@@ -1,66 +1,80 @@
-import React, {useState} from "react";
-import { View, Text, StyleSheet, SafeAreaView, Pressable, TextInput, ScrollView } from "react-native";
+import React, {useEffect, useState} from "react";
+import { View, Text, StyleSheet, SafeAreaView, Pressable, TextInput, ScrollView, FlatList } from "react-native";
 import TopScreen from "../components/TopScreen";
 import NavBar from "../components/NavBar";
 import colors from "../variables/colors";
 import { Ionicons } from '@expo/vector-icons';
-import Axios from 'axios';
+import axios from 'axios';
 import { AuthContext } from "../contextapi/AuthContext";
 import { useContext } from "react";
 import url from '../variables/url';
-import { AntDesign } from '@expo/vector-icons'; 
-
-var once = true;
-var key = 0;
+import ForumItem from "../components/forums/forumItem";
 
 const ForumsScreen = ({ navigation }) => {
-    const [visible, setVisible] = useState(false);
-    const [title, setTitle] = useState('');
-    const [forums, setForums] = useState([]);
-    const auth = useContext(AuthContext);
-    
-    function LoadTitles()
-    {
-        Axios.get(`${url}/forums`, {
-            }).then(response => {
-            console.log(response.data);
-            }).catch(err => {
-            console.log(err);
-        });
-    }
-    if (once) {
-        LoadTitles(); 
-        once = false;
-    }
+  const [visible, setVisible] = useState(false);
+  const [forumTitle, setForumTitle] = useState('');
+  const [forums, setForums] = useState([]);
+  const [filteredForums, setFilteredForums] = useState([]);
+  const auth = useContext(AuthContext);
+  
+  function LoadForums()
+  {
+    axios
+      .get(`${url}/forums`, {
+      })
+      .then(response => {
+        setForums(response.data);
+        setFilteredForums(response.data);
+      })
+      .catch(err => {
+      console.log(err);
+    });
+  }
 
-    function AddForum(){
-        if (title.trim() == "") {
-            console.log("NAZOV CHYYYYYYYYYYYYYYYBA");
-            return;
-        }
-        Axios.post(`${url}/forums/create`, {
-            title: title,
-            owner_id: auth.user.id,
-            opened_at: new Date(),
-            closed_at: null,
-            theme_id: null,
-        }).then(response => {
-            console.log("success");
-        }).catch(err => {
-            console.log(err);
-        });
-        setForums((currentForumTitles) => [
-            ...currentForumTitles,
-            title
-        ]);
-        setVisible(!visible)
+  useEffect(() => {
+    LoadForums();
+  }, []);
+
+  function AddForum(){
+    console.log(forumTitle.length + " ");
+    if(forumTitle.trim() == ""){
+      console.log("NAZOV TREBA DEBILKO");
+      return;
     }
-    function UpVote(){
-        console.log("UP");
+    if(forumTitle.length > 16){
+      console.log("MOC DLHE");
+      return;
     }
-    function DownVote(){
-        console.log("down");
-    }
+    setVisible(false);
+
+    axios
+      .post(`${url}/forums/create`, {
+        title: forumTitle,
+        owner_id: auth.user.id,
+        opened_at: new Date()
+      })
+      .then(response => {
+        console.log("succes");
+      })
+      .catch(err => {
+      console.log(err);
+    });
+    setForumTitle("");
+    LoadForums();
+  }
+
+  function searchForums(text){
+    const filteredForums = forums.filter((item) => {
+      const title = item.title.toLowerCase(); // convert title to lowercase
+      return title.includes(text.toLowerCase()); // convert text to lowercase and use includes method
+    });
+    setFilteredForums(filteredForums);
+  }
+
+  function goToForumSection(forumTitle, forumId){
+    navigation.navigate("ForumSection", {title: forumTitle, id: forumId})
+  }
+
   return (
     <SafeAreaView style={styles.container}>
       <TopScreen navigation={navigation}/>
@@ -68,25 +82,19 @@ const ForumsScreen = ({ navigation }) => {
         <View style={styles.SectionContainer}>
             <Text style={styles.Section}>Forums</Text>
         </View>
-        <TextInput style={styles.Search} placeholder="SEARCH"></TextInput>
-        <ScrollView>
+        <TextInput style={styles.Search} placeholder="SEARCH" onChangeText={searchForums}></TextInput>
         <View style={styles.ForumsContainer}>
-            {forums.map((forum) => <Pressable onPress={() => navigation.navigate("ForumSection", {title: "nieco"})} style={styles.Forum} key={key++}>
-                <View style={{justifyContent: 'center', width: '15%'}}><Text style={{textAlign: 'center', fontSize: 15, fontWeight: 'bold'}}>0</Text></View>
-                <View style={styles.votes}>
-                    <Pressable onPress={UpVote}><AntDesign style={{marginVertical: '10%'}} name="upcircle" size={35} color={colors.green} /></Pressable>
-                    <Pressable onPress={DownVote}><AntDesign style={{marginVertical: '10%'}} name="downcircle" size={35} color="black" /></Pressable>
-                </View>
-                <View style={{justifyContent:'center'}}>
-                    <Text style={styles.ForumTitle}>{forum}</Text>
-                </View>
-                </Pressable>)}
+          <FlatList
+            data={filteredForums}
+            renderItem={({item}) => {
+              if(item != null) return <ForumItem title={item.title} id={item.id} votes={item.upvotes} section={goToForumSection}/>;
+            }}
+          />
         </View>
-        </ScrollView>
         {visible? (
             <View style={styles.AddMenu}>
                 <Text style={{color: colors.white, fontSize: 20, fontWeight: 'bold', borderBottomColor: colors.green, borderBottomWidth: 2}}>ADD FORUM</Text>
-                <TextInput onChangeText={(title) => {setTitle(title)}} style={{marginTop: '10%', backgroundColor: colors.white, fontSize: 15, width: '100%', textAlign: 'center', borderRadius: 30}} placeholder="TITLE"></TextInput>
+                <TextInput onChangeText={(text) => {setForumTitle(text)}} style={{marginTop: '10%', backgroundColor: colors.white, fontSize: 15, width: '100%', textAlign: 'center', borderRadius: 30}} placeholder="TITLE"></TextInput>
                 <Pressable onPress={AddForum} style={{marginTop: '10%', backgroundColor: colors.green, width: '20%', borderRadius: 30}}><Text style={{textAlign: 'center', color: colors.white, fontSize: 15, fontWeight: 'bold'}}>ADD</Text></Pressable>
             </View>
         ) :null}
@@ -141,32 +149,11 @@ const styles = StyleSheet.create({
     marginLeft: '85%',
   },
   ForumsContainer: {
-    height: '100%',
+    height: '85%',
     width: '100%',
     padding: '5%',
     justifyContent: 'flex-start',
     alignItems: 'center',
-  },
-  Forum: {
-    marginBottom: '7%',
-    borderRadius: 30,
-    borderWidth: 3,
-    borderColor: colors.green,
-    width: '90%',
-    flexDirection: 'row',
-  },
-  ForumTitle: {
-    alignSelf: 'center',
-    fontSize: 20,
-    fontWeight: 'bold',
-    color: colors.darkgrey,
-
-  },
-  votes: {
-    marginRight: '5%',
-    marginVertical: '1%',
-    flexDirection: 'column',
-    justifyContent: 'space-between'
   }
 });
 

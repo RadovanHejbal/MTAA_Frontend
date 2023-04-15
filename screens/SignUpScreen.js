@@ -15,7 +15,7 @@ const SignUpScreen = ({ navigation }) => {
   const [weight, setWeight] = useState(null);
   const [height, setHeight] = useState(null);
   const [age, setAge] = useState(null);
-  const [gender, setGender] = useState(null);
+  const [gender, setGender] = useState('m');
 
   function signupHandler() {
     if(firstname.trim() == "" || lastname.trim() == "" || username.trim() == "" || email.trim() == "" || password.trim() == "" || !gender || !height || !weight || !age) {
