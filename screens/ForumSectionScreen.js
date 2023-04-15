@@ -19,9 +19,8 @@ const ForumSectionScreen = ({ navigation }) => {
 
   function LoadMessages()
   {
-    setforumMessages([]);
     axios
-      .get(`${url}/forums/get-messages/${route.params.id}`, {})
+      .get(`${url}/forums/get-messages/${route.params.id}`)
       .then(response => {
         setforumMessages(response.data);
       })
@@ -95,8 +94,9 @@ const ForumSectionScreen = ({ navigation }) => {
     <View style={styles.messagesContainer}>
       <FlatList
         data={forumMessages}
+        keyExtractor={(item) => item.id}
         renderItem={({item}) => {
-          if(item != null) return <MessageItem key={item.id} message={item.text} userId={auth.user.id} messageUserId={item.user_id} coache_id={item.coach_id}/>;
+          if(item != null) return <MessageItem message={item.text} userId={auth.user.id} messageUserId={item.user_id} coache_id={item.coach_id}/>;
         }}
       />
     </View>
