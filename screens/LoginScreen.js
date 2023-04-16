@@ -1,6 +1,6 @@
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View, Pressable, TextInput, Image } from 'react-native';
-import { useState, useContext } from 'react';
+import { useState, useContext, useEffect } from 'react';
 import colors from '../variables/colors';
 import url from '../variables/url';
 import Axios from 'axios';
@@ -12,6 +12,7 @@ const LoginScreen = ({ navigation }) => {
   const auth = useContext(AuthContext);
 
   function loginHandler() {
+    
     Axios.post(`${url}/users/login`, {
       username: enteredUsername,
       password: enteredPassword
@@ -31,7 +32,7 @@ const LoginScreen = ({ navigation }) => {
       <View style={styles.InputContainer}>
         <Text style={styles.Text}>FitMe</Text>
         <TextInput style={styles.Input} placeholder='Username' onChangeText={(enteredUsername) => {setEnteredUsername(enteredUsername)}}/>
-        <TextInput style={styles.Input} placeholder='Password' onChangeText={(enteredPassword) => {setEnteredPassword(enteredPassword)}}/>
+        <TextInput autoCorrect={false} secureTextEntry style={styles.Input} placeholder='Password' onChangeText={(enteredPassword) => {setEnteredPassword(enteredPassword)}}/>
         
         {/* Buttons */}
         {/* Login */}

@@ -8,7 +8,7 @@ import axios from 'axios';
 import { AuthContext } from "../contextapi/AuthContext";
 import { useContext } from "react";
 import url from '../variables/url';
-import ForumItem from "../components/forums/forumItem";
+import ForumItem from "../components/forums/ForumItem";
 
 const ForumsScreen = ({ navigation }) => {
   const [visible, setVisible] = useState(false);
@@ -36,13 +36,8 @@ const ForumsScreen = ({ navigation }) => {
   }, []);
 
   function AddForum(){
-    console.log(forumTitle.length + " ");
     if(forumTitle.trim() == ""){
       console.log("NAZOV TREBA DEBILKO");
-      return;
-    }
-    if(forumTitle.length > 16){
-      console.log("MOC DLHE");
       return;
     }
     setVisible(false);
@@ -94,7 +89,7 @@ const ForumsScreen = ({ navigation }) => {
         {visible? (
             <View style={styles.AddMenu}>
                 <Text style={{color: colors.white, fontSize: 20, fontWeight: 'bold', borderBottomColor: colors.green, borderBottomWidth: 2}}>ADD FORUM</Text>
-                <TextInput onChangeText={(text) => {setForumTitle(text)}} style={{marginTop: '10%', backgroundColor: colors.white, fontSize: 15, width: '100%', textAlign: 'center', borderRadius: 30}} placeholder="TITLE"></TextInput>
+                <TextInput maxLength={16} onChangeText={(text) => {setForumTitle(text)}} style={{marginTop: '10%', backgroundColor: colors.white, fontSize: 15, width: '100%', textAlign: 'center', borderRadius: 30}} placeholder="TITLE"></TextInput>
                 <Pressable onPress={AddForum} style={{marginTop: '10%', backgroundColor: colors.green, width: '20%', borderRadius: 30}}><Text style={{textAlign: 'center', color: colors.white, fontSize: 15, fontWeight: 'bold'}}>ADD</Text></Pressable>
             </View>
         ) :null}

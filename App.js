@@ -13,6 +13,8 @@ import CoachesScreen from "./screens/CoachesScreen";
 import ProfileScreen from "./screens/ProfileScreen"
 import FitnessCentrumsScreen from "./screens/FitnessCentrumsScreen";
 import ForumSectionScreen from "./screens/ForumSectionScreen";
+import RecepieAddScreen from "./screens/RecepieAddScreen";
+import RecepieSectionScreen from "./screens/RecepieSectionScreen";
 
 const Stack = createNativeStackNavigator();
 
@@ -28,8 +30,10 @@ export default function App() {
           <Stack.Screen name="SearchMeal" component={SearchMeal} />
           <Stack.Screen name="MealDetails" component={MealDetails} />
           <Stack.Screen name="Recepies" component={RecepiesScreen} />
+          <Stack.Screen name="RecepieSection" component={RecepieSectionScreen} />
+          <Stack.Screen name="AddRecepie" component={RecepieAddScreen} />
           <Stack.Screen name="Forums" component={ForumsScreen} />
-          <Stack.Screen name="ForumSection" component={ForumSectionScreen} options={{title: "",}} />
+          <Stack.Screen name="ForumSection" component={ForumSectionScreen} />
           <Stack.Screen name="Coaches" component={CoachesScreen} /> 
           <Stack.Screen name="Profile" component={ProfileScreen} />
           <Stack.Screen name="Fitness" component={FitnessCentrumsScreen} />

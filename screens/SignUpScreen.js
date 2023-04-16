@@ -53,10 +53,10 @@ const SignUpScreen = ({ navigation }) => {
       <TextInput style={styles.Input} placeholder='Email' onChangeText={(enteredEmail) => {setEmail(enteredEmail)}}/>
       <TextInput style={styles.Input} placeholder='Password' onChangeText={(enteredPassword) => {setPassword(enteredPassword)}}/>
       <View style={styles.Weight_Height}>
-        <TextInput style={[styles.Input, {width: '30%', flex: 1}]} placeholder='Weight' onChangeText={(enteredWeight) => {setWeight(enteredWeight)}}/>
-        <TextInput style={[styles.Input, {width: '30%', flex: 1}]} placeholder='Height' onChangeText={(enteredHeight) => {setHeight(enteredHeight)}}/>
+        <TextInput style={[styles.Input, {width: '30%', flex: 1}]} keyboardType='numeric' placeholder='Weight' onChangeText={(enteredWeight) => {setWeight(enteredWeight)}}/>
+        <TextInput style={[styles.Input, {width: '30%', flex: 1}]} keyboardType='numeric' placeholder='Height' onChangeText={(enteredHeight) => {setHeight(enteredHeight)}}/>
       </View>
-      <TextInput style={[styles.Input, {width: '30%'}]} placeholder='Age' onChangeText={(enteredHeight) => {setAge(enteredHeight)}}/>
+      <TextInput style={[styles.Input, {width: '30%'}]} keyboardType='numeric' placeholder='Age' onChangeText={(enteredHeight) => {setAge(enteredHeight)}}/>
 
       {/* WEIGHT AND HEIGHT BUTTON */}
       <View style={styles.ButtonContainer}>

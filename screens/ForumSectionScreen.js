@@ -7,7 +7,7 @@ import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { AuthContext } from "../contextapi/AuthContext";
 import axios from "axios";
 import url from "../variables/url";
-import MessageItem from "../components/forums/messageItem";
+import MessageItem from "../components/forums/MessageItem";
 
 const ForumSectionScreen = ({ navigation }) => {
   const route = useRoute();
