@@ -2,9 +2,9 @@ import { useEffect, useState, useContext } from "react";
 import { Alert, Pressable, SafeAreaView, Text, TextInput, View, StyleSheet } from "react-native";
 import { useRoute } from '@react-navigation/native';
 import axios from "axios";
-import url from "../variables/url";
-import colors from "../variables/colors";
-import { AuthContext } from "../contextapi/AuthContext";
+import url from "../../variables/url";
+import colors from "../../variables/colors";
+import { AuthContext } from "../../contextapi/AuthContext";
 
 const MealDetails = (props) => {
     const auth = useContext(AuthContext);
@@ -47,6 +47,7 @@ const MealDetails = (props) => {
             date: new Date(),
             mealId: id
         }).then(response => {
+            auth.addMeal({kcal: response.data.grams * details.kcal, protein: response.data.grams * details.protein, fat: response.data.grams * details.fat, carbs: response.data.grams * details.carbohydrates, grams: response.data.grams, title: details.title, id: response.data.id});
             props.navigation.navigate("Home");
         }).catch(err => {
             console.log(err);
@@ -54,35 +55,49 @@ const MealDetails = (props) => {
         })
     }
 
-    return <SafeAreaView>
+    return <SafeAreaView style={styles.container}>
         <Text style={styles.title}>{details.title}</Text>
         <View>
-            <Text>{grams ? (details.kcal * grams).toFixed(2) : 0} kcal</Text>
+            <Text style={styles.text}>{grams ? (details.kcal * grams).toFixed(0) : 0} kcal</Text>
             <View>
-                <Text>{grams ? (details.protein * grams).toFixed(2) : 0} protein</Text>
-                <Text>{grams ? (details.fat * grams).toFixed(2) : 0} fat</Text>
-                <Text>{grams ? (details.carbohydrates * grams).toFixed(2) : 0} carbs</Text>
+                <Text style={styles.text}>{grams ? (details.protein * grams).toFixed(0) : 0} protein</Text>
+                <Text style={styles.text}>{grams ? (details.fat * grams).toFixed(0) : 0} fat</Text>
+                <Text style={styles.text}>{grams ? (details.carbohydrates * grams).toFixed(0) : 0} carbs</Text>
             </View>
         </View>
-        <TextInput keyboardType="numeric" onChangeText={gramsChange} style={styles.input} />
+        <TextInput placeholder="grams" keyboardType="numeric" onChangeText={gramsChange} style={styles.input} />
         <Pressable onPress={addMeal} style={styles.button}><Text style={styles.buttonText}>Add meal</Text></Pressable>
     </SafeAreaView>
 }
 
 const styles = StyleSheet.create({
+    container: {
+        alignItems: 'center'
+    },
     title: {
         fontWeight: 'bold',
-        fontSize: 32
+        fontSize: 24,
+        marginVertical: 24
     },
     input: {
         borderWidth: 1,
-        borderColor: colors.black
+        borderColor: colors.black,
+        fontSize: 16,
+        padding: 8
     },
     button: {
-        backgroundColor: colors.green
+        backgroundColor: colors.green,
+        borderRadius: 16,
+        padding: 8,
+        marginVertical: 24
     },
     buttonText: {
         color: colors.white
+    },
+    text: {
+        marginBottom: 8,
+        fontSize: 16,
+        fontWeight: 600
     }
 })
 

@@ -1,11 +1,11 @@
 import { Pressable, View, Text, StyleSheet } from "react-native";
 import { Ionicons, MaterialIcons, FontAwesome5 } from "@expo/vector-icons";
 
-const NavBar = ({ navigation }) => {
+const NavBar = ({ navigation, current }) => {
   return (
     <View style={styles.container}>
       <View style={styles.item}>
-        <Pressable onPress={() => navigation.navigate("Home")}>
+        <Pressable onPress={() => {current != "Home" && navigation.replace("Home")}}>
           <View style={styles.icon}>
             <Ionicons name="ios-home-sharp" size={24} color="white" />
           </View>
@@ -13,7 +13,7 @@ const NavBar = ({ navigation }) => {
         </Pressable>
       </View>
       <View style={styles.item}>
-        <Pressable onPress={() => navigation.navigate("Coaches")}>
+        <Pressable onPress={() => {current != "Coaches" && navigation.replace("Coaches")}}>
           <View style={styles.icon}>
             <FontAwesome5
               style={styles.icon}
@@ -26,7 +26,7 @@ const NavBar = ({ navigation }) => {
         </Pressable>
       </View>
       <View style={styles.item}>
-        <Pressable onPress={() => navigation.navigate("Recepies")}>
+        <Pressable onPress={() => {current != "Recepies" && navigation.replace("Recepies")}}>
           <View style={styles.icon}>
             <Ionicons name="fast-food" size={24} color="white" />
           </View>
@@ -34,7 +34,7 @@ const NavBar = ({ navigation }) => {
         </Pressable>
       </View>
       <View style={styles.item}>
-        <Pressable onPress={() => navigation.navigate("Forums")}>
+        <Pressable onPress={() => {current != "Forums" && navigation.replace("Forums")}}>
           <View style={styles.icon}>
             <MaterialIcons name="forum" size={24} color="white" />
           </View>

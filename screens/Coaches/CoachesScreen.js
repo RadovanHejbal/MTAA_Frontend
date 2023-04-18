@@ -1,7 +1,7 @@
 import { View, Text, StyleSheet, SafeAreaView, Pressable } from "react-native";
-import TopScreen from "../components/TopScreen";
-import NavBar from "../components/NavBar";
-import colors from "../variables/colors";
+import TopScreen from "../../components/TopScreen";
+import NavBar from "../../components/NavBar";
+import colors from "../../variables/colors";
 
 const CoachesScreen = ({ navigation }) => {
   return (
@@ -10,7 +10,7 @@ const CoachesScreen = ({ navigation }) => {
       <View style={styles.SectionContainer}>
         <Text style={styles.Section}>Coaches</Text>
       </View>
-      <NavBar navigation={navigation} />
+      <NavBar navigation={navigation} current="Coaches" />
     </SafeAreaView>
   );
 };

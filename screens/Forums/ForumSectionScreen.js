@@ -2,12 +2,12 @@ import React, {useContext, useEffect, useState} from "react";
 import { useRoute } from "@react-navigation/native";
 import { View, Text, StyleSheet, SafeAreaView, Pressable, TextInput, FlatList } from "react-native";
 import { AntDesign } from '@expo/vector-icons'; 
-import colors from "../variables/colors";
+import colors from "../../variables/colors";
 import { MaterialCommunityIcons } from '@expo/vector-icons'; 
-import { AuthContext } from "../contextapi/AuthContext";
+import { AuthContext } from "../../contextapi/AuthContext";
 import axios from "axios";
-import url from "../variables/url";
-import MessageItem from "../components/forums/MessageItem";
+import url from "../../variables/url";
+import MessageItem from "../../components/forums/MessageItem";
 
 const ForumSectionScreen = ({ navigation }) => {
   const route = useRoute();
@@ -32,7 +32,8 @@ const ForumSectionScreen = ({ navigation }) => {
     LoadMessages();
   }, []);
 
-  function SendMessage() {
+  async function SendMessage() {
+    console.log(auth.user);
     if(message.length > 250){
       console.log("Moc dlhe");
       return;
@@ -42,27 +43,13 @@ const ForumSectionScreen = ({ navigation }) => {
       console.log("Moc kratke");
       return;
     }
-    
-    var coachIdFromJSON = "";
-
-    if(auth.isCoach){
-      axios
-      .get(`${url}/coaches/relations/${auth.user.id}`, {})
-      .then(response => {
-        setCoachId(response.data);
-      })  
-      .catch(err => {
-        console.log(err);
-      });
-      coachIdFromJSON = coachId[0]['coach_id'];
-    }
    
-    axios
+    await axios
       .post(`${url}/forums/add-message`, {
         forumid: route.params.id,
         userid: auth.user.id,
         text: message,
-        coache_id: coachIdFromJSON
+        coache_id: auth.isCoach ? auth.user.coachId : ""
       })
       .then(response => {
         setforumMessages(response.data);
@@ -75,6 +62,7 @@ const ForumSectionScreen = ({ navigation }) => {
     setMessage('');
     this.TextInput.current.clear();
   }
+
   
   return (
    <View style={styles.container}>

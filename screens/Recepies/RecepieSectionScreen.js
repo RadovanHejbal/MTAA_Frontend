@@ -1,12 +1,12 @@
 import { View, Text, StyleSheet, SafeAreaView, Pressable, Image } from "react-native";
-import colors from "../variables/colors";
+import colors from "../../variables/colors";
 import { AntDesign } from '@expo/vector-icons'; 
 import { useRoute } from "@react-navigation/native";
 import { MaterialIcons } from '@expo/vector-icons';
 
 
 const RecepieSectionScreen = ({ navigation }) => {
-  const route = useRoute()
+  const route = useRoute();
 
   return (
     <SafeAreaView style={styles.container}>

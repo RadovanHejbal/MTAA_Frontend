@@ -1,8 +1,9 @@
 import { useEffect, useState } from "react";
-import { SafeAreaView, TextInput, FlatList } from "react-native";
-import url from "../variables/url";
+import { SafeAreaView, TextInput, FlatList, StyleSheet } from "react-native";
+import url from "../../variables/url";
+import colors from "../../variables/colors";
 import axios from "axios";
-import Item from "../components/search/Item";
+import Item from "../../components/homescreen/Item";
 
 const SearchMeal = ({ navigation }) => {
   const [meals, setMeals] = useState([]);
@@ -33,9 +34,10 @@ const SearchMeal = ({ navigation }) => {
   }
 
   return (
-    <SafeAreaView>
-      <TextInput placeholder="search" onChangeText={searchMeal} />
+    <SafeAreaView style={styles.container}>
+      <TextInput placeholder="search" onChangeText={searchMeal} style={styles.search} />
       <FlatList
+        style={styles.mealsContainer}
         data={filteredMeals}
         renderItem={({ item }) => {
           return <Item title={item.title} details={goToDetails} id={item.id} />;
@@ -44,5 +46,23 @@ const SearchMeal = ({ navigation }) => {
     </SafeAreaView>
   );
 };
+
+const styles = StyleSheet.create({
+  container: {
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  search: {
+    borderBottomWidth: 2,
+    borderColor: colors.green,
+    fontSize: 24,
+    width: '70%',
+    padding: 8,
+    marginVertical: 24
+  },
+  mealsContainer: {
+    width: '90%'
+  }
+})
 
 export default SearchMeal;

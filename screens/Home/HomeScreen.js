@@ -1,9 +1,12 @@
-import { View, Text, StyleSheet, SafeAreaView, Pressable } from "react-native";
+import { View, StyleSheet, SafeAreaView, FlatList } from "react-native";
 import { useContext } from "react";
-import { AuthContext } from "../contextapi/AuthContext";
-import TopScreen from "../components/TopScreen";
-import NavBar from "../components/NavBar";
-import DayInfo from "../components/homescreen/DayInfo";
+import { AuthContext } from "../../contextapi/AuthContext";
+import TopScreen from "../../components/TopScreen";
+import NavBar from "../../components/NavBar";
+import DayInfo from "../../components/homescreen/DayInfo";
+import OwnedMeal from "./OwnedMeal";
+import axios from "axios";
+import url from "../../variables/url";
 
 const HomeScreen = ({ navigation }) => {
   const auth = useContext(AuthContext);
@@ -14,6 +17,14 @@ const HomeScreen = ({ navigation }) => {
 
   function addActivity() {
     console.log("ADD ACTIVITY");
+  }
+
+  function deleteMeal(mealToDelete) {
+    axios.delete(`${url}/meals/owned-meals/delete/${mealToDelete.id}`).then(response => {
+      auth.deleteMeal(mealToDelete);
+    }).catch(err => {
+      console.log(err);
+    })
   }
 
   return (
@@ -39,8 +50,11 @@ const HomeScreen = ({ navigation }) => {
           <View></View>
           <View></View>
         </View>
+        <FlatList data={auth.dailyMeals.meals} renderItem={({item}) => {
+          return <OwnedMeal meal={item} delete={deleteMeal} />
+        }} />
       </View>
-      <NavBar navigation={navigation} />
+      <NavBar navigation={navigation} current="Home" />
     </SafeAreaView>
   );
 };

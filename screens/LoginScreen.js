@@ -1,6 +1,6 @@
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View, Pressable, TextInput, Image } from 'react-native';
-import { useState, useContext, useEffect } from 'react';
+import { useState, useContext } from 'react';
 import colors from '../variables/colors';
 import url from '../variables/url';
 import Axios from 'axios';
@@ -9,21 +9,25 @@ import { AuthContext } from '../contextapi/AuthContext';
 const LoginScreen = ({ navigation }) => {
   const [enteredUsername, setEnteredUsername] = useState('');
   const [enteredPassword, setEnteredPassword] = useState('');
+  const [wrongInput, setWrongInput] = useState(false);
   const auth = useContext(AuthContext);
 
-  function loginHandler() {
-    
-    Axios.post(`${url}/users/login`, {
-      username: enteredUsername,
-      password: enteredPassword
-    })
-    .then(response => {
-      auth.login(response.data);
-      navigation.navigate("Loading");
-    })
-    .catch(error => {
-      console.log(error);
-    });
+  async function loginHandler() {
+      try {
+        const response = await Axios.post(`${url}/users/login`, {
+          username: enteredUsername,
+          password: enteredPassword
+        });
+        if(response.data.role == "coach") {
+          const coachId = await Axios.get(`${url}/coaches/is-coach/${response.data.id}`);
+          auth.login({...response.data, coachId: coachId.data.id, specialization: coachId.data.specializaion, description: coachId.data.description});
+        }else {
+          auth.login(response.data);
+        }
+        navigation.navigate("Loading");
+      }catch(err) {
+        setWrongInput(true);
+      }
   }
 
   return (
@@ -31,8 +35,8 @@ const LoginScreen = ({ navigation }) => {
       <Image style={styles.Logo} source={require('../images/Logo.png')}/>
       <View style={styles.InputContainer}>
         <Text style={styles.Text}>FitMe</Text>
-        <TextInput style={styles.Input} placeholder='Username' onChangeText={(enteredUsername) => {setEnteredUsername(enteredUsername)}}/>
-        <TextInput autoCorrect={false} secureTextEntry style={styles.Input} placeholder='Password' onChangeText={(enteredPassword) => {setEnteredPassword(enteredPassword)}}/>
+        <TextInput style={[styles.Input, wrongInput && styles.wrongInput]} placeholder='Username' onChangeText={(enteredUsername) => {if(wrongInput) setWrongInput(false); setEnteredUsername(enteredUsername)}}/>
+        <TextInput autoCorrect={false} secureTextEntry style={[styles.Input, wrongInput && styles.wrongInput]} placeholder='Password' onChangeText={(enteredPassword) => {if(wrongInput) setWrongInput(false); setEnteredPassword(enteredPassword)}}/>
         
         {/* Buttons */}
         {/* Login */}
@@ -106,5 +110,9 @@ const styles = StyleSheet.create({
     borderRadius: 30,
     alignItems: 'center',
     alignSelf: 'center'
+  },
+  wrongInput: {
+    borderWidth: 1,
+    borderColor: 'red'
   }
 });

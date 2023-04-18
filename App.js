@@ -3,18 +3,18 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import AuthContextProvider from "./contextapi/AuthContext";
 import LoginScreen from "./screens/LoginScreen";
 import SignUpScreen from "./screens/SignUpScreen";
-import HomeScreen from './screens/HomeScreen';
+import HomeScreen from './screens/Home/HomeScreen';
 import LoadingScreen from "./screens/LoadingScreen";
-import SearchMeal from "./screens/SearchMeal";
-import MealDetails from "./screens/MealDetails";
-import RecepiesScreen from "./screens/RecepiesScreen";
-import ForumsScreen from "./screens/ForumsScreen";
-import CoachesScreen from "./screens/CoachesScreen";
+import SearchMeal from "./screens/Home/SearchMeal";
+import MealDetails from "./screens/Home/MealDetails";
+import RecepiesScreen from "./screens/Recepies/RecepiesScreen";
+import ForumsScreen from "./screens/Forums/ForumsScreen";
+import CoachesScreen from "./screens/Coaches/CoachesScreen";
 import ProfileScreen from "./screens/ProfileScreen"
 import FitnessCentrumsScreen from "./screens/FitnessCentrumsScreen";
-import ForumSectionScreen from "./screens/ForumSectionScreen";
-import RecepieAddScreen from "./screens/RecepieAddScreen";
-import RecepieSectionScreen from "./screens/RecepieSectionScreen";
+import ForumSectionScreen from "./screens/Forums/ForumSectionScreen";
+import RecepieAddScreen from "./screens/Recepies/RecepieAddScreen";
+import RecepieSectionScreen from "./screens/Recepies/RecepieSectionScreen";
 
 const Stack = createNativeStackNavigator();
 

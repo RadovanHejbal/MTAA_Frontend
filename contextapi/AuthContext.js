@@ -1,4 +1,6 @@
 import React, { useState } from "react";
+import axios from "axios";
+import url from "../variables/url";
 
 export const AuthContext = React.createContext({
   user: null,
@@ -8,7 +10,9 @@ export const AuthContext = React.createContext({
   isAdmin: false,
   login: () => {},
   logout: () => {},
-  daily: () => {}
+  daily: () => {},
+  addMeal: () => {},
+  deleteMeal: () => {}
 });
 
 const AuthContextProvider = (props) => {
@@ -18,10 +22,14 @@ const AuthContextProvider = (props) => {
   const [isCoach, setIsCoach] = useState(false);
   const [isAdmin, setIsAdmin] = useState(false);
 
+
   function loginHandler(data) {
+    if(data.role == "coach") {
+      setIsCoach(true);
+    }else if(data.role == "Admin") {
+      setIsAdmin(true);
+    }
     setUser(data);
-    if(data.role == "Admin") setIsAdmin(true);
-    else if(data.role == "coach") setIsCoach(true);
   };
 
   function logoutHandler() {
@@ -42,12 +50,22 @@ const AuthContextProvider = (props) => {
     }
   }
 
+  function addMeal(meal) {
+    setDailyMeals({fat: dailyMeals.fat + meal.fat, carbs: dailyMeals.carbs + meal.carbs, protein: dailyMeals.protein + meal.protein, kcal: dailyMeals.kcal + meal.kcal, meals: [...dailyMeals.meals, meal]});
+  }
+
+  function deleteMeal(meal) {
+    setDailyMeals({fat: dailyMeals.fat - meal.fat, carbs: dailyMeals.carbs - meal.carbs, protein: dailyMeals.protein - meal.protein, kcal: dailyMeals.kcal - meal.kcal, meals: dailyMeals.filter(el => el.id != meal.id)});
+  }
+
   return (
     <AuthContext.Provider
       value={{
         login: loginHandler,
         logout: logoutHandler,
         daily: loginDailyHandler,
+        addMeal,
+        deleteMeal,
         isAdmin,
         isCoach,
         user,

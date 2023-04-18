@@ -1,13 +1,13 @@
 import { View, Text, StyleSheet, SafeAreaView, Pressable, TextInput, Dimensions, Image } from "react-native";
 import { MaterialIcons } from '@expo/vector-icons';
-import colors from "../variables/colors";
+import colors from "../../variables/colors";
 import { AntDesign } from '@expo/vector-icons';
 import { useContext, useEffect, useState } from "react";
-import PickFromGalery from "../components/Galery";
-import PickFromCamera from "../components/Camera";
+import PickFromGalery from "../../components/Galery";
+import PickFromCamera from "../../components/Camera";
 import axios from "axios";
-import url from "../variables/url";
-import { AuthContext } from "../contextapi/AuthContext";
+import url from "../../variables/url";
+import { AuthContext } from "../../contextapi/AuthContext";
 
 const RecepieAddScreen = ({ navigation }) => {
   const [recepieName, setRecepieName] = useState('');

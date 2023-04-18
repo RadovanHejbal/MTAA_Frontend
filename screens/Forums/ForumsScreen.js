@@ -1,14 +1,14 @@
 import React, {useEffect, useState} from "react";
 import { View, Text, StyleSheet, SafeAreaView, Pressable, TextInput, ScrollView, FlatList } from "react-native";
-import TopScreen from "../components/TopScreen";
-import NavBar from "../components/NavBar";
-import colors from "../variables/colors";
+import TopScreen from "../../components/TopScreen";
+import NavBar from "../../components/NavBar";
+import colors from "../../variables/colors";
 import { Ionicons } from '@expo/vector-icons';
 import axios from 'axios';
-import { AuthContext } from "../contextapi/AuthContext";
+import { AuthContext } from "../../contextapi/AuthContext";
 import { useContext } from "react";
-import url from '../variables/url';
-import ForumItem from "../components/forums/ForumItem";
+import url from '../../variables/url';
+import ForumItem from "../../components/forums/ForumItem";
 
 const ForumsScreen = ({ navigation }) => {
   const [visible, setVisible] = useState(false);
@@ -97,7 +97,7 @@ const ForumsScreen = ({ navigation }) => {
             <Ionicons name="add-circle-sharp" size={48} color={colors.green} />
         </Pressable>
       </View>
-      <NavBar navigation={navigation}/>
+      <NavBar navigation={navigation} current="Forums" />
     </SafeAreaView>
   );
 };

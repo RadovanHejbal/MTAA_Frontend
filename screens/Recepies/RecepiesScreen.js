@@ -1,12 +1,12 @@
 import { View, Text, StyleSheet, SafeAreaView, Pressable, TextInput, FlatList } from "react-native";
-import TopScreen from "../components/TopScreen";
-import NavBar from "../components/NavBar";
-import colors from "../variables/colors";
+import TopScreen from "../../components/TopScreen";
+import NavBar from "../../components/NavBar";
+import colors from "../../variables/colors";
 import { Ionicons } from '@expo/vector-icons';
 import { useEffect, useLayoutEffect, useState } from "react";
 import axios from "axios";
-import url from "../variables/url";
-import RecepieItem from "../components/recepies/RecepieItem";
+import url from "../../variables/url";
+import RecepieItem from "../../components/recepies/RecepieItem";
 
 const RecepiesScreen = ({ navigation }) => {
   const [recepies, setRecepies] = useState([]);
@@ -60,7 +60,7 @@ const RecepiesScreen = ({ navigation }) => {
             <Ionicons name="add-circle-sharp" size={48} color={colors.green} />
         </Pressable>
       </View>
-      <NavBar navigation={navigation}/>
+      <NavBar navigation={navigation} current="Recepies" />
     </SafeAreaView>
   );
 };
