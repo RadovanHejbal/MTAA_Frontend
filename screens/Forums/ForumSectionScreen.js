@@ -13,7 +13,6 @@ const ForumSectionScreen = ({ navigation }) => {
   const route = useRoute();
   const [message, setMessage] = useState('');
   const [forumMessages, setforumMessages] = useState([]);
-  const [coachId, setCoachId] = useState(null);
   const auth = useContext(AuthContext);
   this.TextInput = React.createRef(); 
 
@@ -103,17 +102,17 @@ const styles = StyleSheet.create({
   },
   topSectionContainer: {
     height: '15%',
+    paddingTop: '3%',
     flexDirection: 'row',
   },
   buttonContainer: {
     paddingTop: '10%',
     width: '20%',
-    padding: '5%',
     alignItems: 'center',
     justifyContent: 'center'
   },
   titleContainer: {
-    width: '100%',
+    width: '80%',
     paddingRight: '20%',
     paddingTop: '10%',
   },

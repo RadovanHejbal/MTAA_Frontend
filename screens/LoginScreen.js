@@ -1,5 +1,5 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, Pressable, TextInput, Image } from 'react-native';
+import { StyleSheet, Text, View, Pressable, TextInput, Image, Alert } from 'react-native';
 import { useState, useContext } from 'react';
 import colors from '../variables/colors';
 import url from '../variables/url';
@@ -13,6 +13,10 @@ const LoginScreen = ({ navigation }) => {
   const auth = useContext(AuthContext);
 
   async function loginHandler() {
+    if(enteredUsername.trim() == "" || enteredPassword.trim() == "") {
+      setWrongInput(true);
+      return;
+    }
       try {
         const response = await Axios.post(`${url}/users/login`, {
           username: enteredUsername,
