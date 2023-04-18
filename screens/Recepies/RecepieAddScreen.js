@@ -52,7 +52,7 @@ const RecepieAddScreen = ({ navigation }) => {
               <Pressable onPress={() => {navigation.navigate("Recepies")}}><AntDesign name="closecircle" size={45} color="black" /></Pressable>
             </View>
             <View style={styles.nameSection}>
-              <TextInput maxLength={10} style={{fontSize: 20, color: colors.black}} placeholder="Name . . ." onChangeText={(text) => {setRecepieName(text)}}></TextInput>
+              <TextInput maxLength={24} style={{fontSize: 20, color: colors.black}} placeholder="Name . . ." onChangeText={(text) => {setRecepieName(text)}}></TextInput>
             </View>
           </View>
         </View>

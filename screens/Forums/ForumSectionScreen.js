@@ -75,7 +75,7 @@ const ForumSectionScreen = ({ navigation }) => {
           <Text style={{fontSize: 20, color: colors.black, fontWeight: 'bold'}}>SECTION</Text>
         </View>
         <View style={styles.title}>
-          <Text style={{fontSize: 20, color: colors.darkgrey, fontWeight: 'bold', borderBottomWidth: 2, borderColor: colors.green, textTransform: 'uppercase'}}>{route.params.title}</Text>
+          <Text style={{fontSize: 25, color: colors.darkgrey, fontWeight: 'bold', borderBottomWidth: 2, borderColor: colors.green, textTransform: 'uppercase'}}>{route.params.title}</Text>
         </View>
       </View>
     </View>
@@ -110,21 +110,21 @@ const styles = StyleSheet.create({
     width: '20%',
     padding: '5%',
     alignItems: 'center',
-    justifyContent: 'center'
+    justifyContent: 'center',
   },
   titleContainer: {
-    width: '100%',
+    width: '80%',
     paddingRight: '20%',
     paddingTop: '10%',
   },
   section: {
     alignItems: 'flex-start',
     height: '50%',
-    justifyContent: 'center'
+    justifyContent: 'center',
   },
   title: {
-    alignItems: 'flex-start',
-    paddingLeft: '15%',
+    alignItems: 'center',
+    justifyContent: 'flex-start',
     height: '50%',
   },
   messagesContainer: {
