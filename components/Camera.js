@@ -1,5 +1,5 @@
 import * as ImagePicker from 'expo-image-picker';
-import { Alert } from 'react-native';
+import { Alert, Linking } from 'react-native';
 
 const PickFromCamera = async () =>{
     const {status} = await ImagePicker.requestCameraPermissionsAsync();
@@ -13,10 +13,22 @@ const PickFromCamera = async () =>{
         })
         return image.assets[0]['uri'];
     }
-    else{
-        Alert.alert("Need permission to camera for use it!");
-        return null;
-    }
+    Alert.alert(
+        'Permissions to camera Required',
+        "Please allow access to device camera",
+        [
+          {
+            text: 'Cancel',
+            style: 'cancel'
+          },
+          {
+            text: 'OK',
+            onPress: Linking.openSettings
+          }
+        ],
+        { cancelable: false }
+    );
+    return null;
 }
 
 export default PickFromCamera

@@ -49,18 +49,17 @@ const styles = StyleSheet.create({
       flexDirection: 'row'
     },
     buttonReturn: {
-      width: '30%',
+      width: '25%',
       height: '100%',
       justifyContent: 'center',
     },
     titleSection: {
-      width: '70%',
+      width: '75%',
       height: '100%',
       justifyContent: 'center',
       alignItems: 'flex-start',
-      paddingLeft: '5%'
+      paddingLeft: '7.5%',
     },
-
     midSection: {
       width: '100%',
       height: '20%',

@@ -12,10 +12,22 @@ const PickFromGalery = async () =>{
         })
         return image.assets[0]['uri'];
     }
-    else{
-        Alert.alert("Need permission to galery for use it!");
-        return null;
-    }
+    Alert.alert(
+        'Permissions to galery Required',
+        "Please allow access to your galery",
+        [
+          {
+            text: 'Cancel',
+            style: 'cancel'
+          },
+          {
+            text: 'OK',
+            onPress: Linking.openSettings
+          }
+        ],
+        { cancelable: false }
+    );
+    return null;
 }
 
 export default PickFromGalery

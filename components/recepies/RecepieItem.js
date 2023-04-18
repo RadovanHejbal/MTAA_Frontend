@@ -53,8 +53,8 @@ const RecepieItem = (props) => {
                 {props.image != null? (<Image style={{width: '40%', height: '100%', resizeMode: 'center', borderRadius: 25}} source={{uri: props.image}}></Image>): 
                 (<View style={{width: '40%', height: '100%', justifyContent: 'center', alignItems: 'center', backgroundColor: 'lightgrey', borderRadius: 25}}><MaterialIcons name="no-photography" size={80} color="black" /></View>)}
                 <View style={{flexDirection: 'column', width: '60%', justifyContent: 'center', alignItems: 'center'}}>
-                    <View style={{borderWidth: 2, justifyContent: 'center', alignItems: 'center', padding: '5%', paddingHorizontal: '10%', borderRadius: 30, borderColor: colors.green}}>
-                        <Text style={{fontSize: 15, fontWeight: 'bold'}}>{props.title}</Text>
+                    <View style={{borderWidth: 2, justifyContent: 'center', alignItems: 'center', padding: '5%', paddingHorizontal: '10%', borderRadius: 30, borderColor: colors.green, maxWidth: '90%', maxHeight: '60%'}}>
+                        <Text style={{fontWeight: 'bold'}}>{props.title}</Text>
                     </View>
                     <View style={{marginTop: '5%'}}>
                         <Text style={{fontSize: 12}}>{props.votes}</Text>

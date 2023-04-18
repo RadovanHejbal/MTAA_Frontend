@@ -140,7 +140,7 @@ const styles = StyleSheet.create({
   },
   AddButton: {
     position: 'absolute',
-    marginTop: '160%',
+    marginTop: '150%',
     marginLeft: '85%',
   },
   ForumsContainer: {
