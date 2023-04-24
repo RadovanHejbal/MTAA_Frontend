@@ -1,10 +1,12 @@
-import { View, Text, StyleSheet, SafeAreaView, Pressable, TextInput } from "react-native";
+import { View, Text, StyleSheet, SafeAreaView, Pressable, TextInput, Alert } from "react-native";
 import TopScreen from "../components/TopScreen";
 import NavBar from "../components/NavBar";
 import colors from "../variables/colors";
 import { FontAwesome5 } from '@expo/vector-icons';
 import { useContext, useState } from "react";
 import { AuthContext } from "../contextapi/AuthContext";
+import url from "../variables/url";
+import axios from "axios";
 
 const ProfileScreen = ({ navigation }) => {
   const [username, setUsername] = useState('');
@@ -15,14 +17,44 @@ const ProfileScreen = ({ navigation }) => {
   const auth = useContext(AuthContext);
 
   function UpdateProfile(){
-    console.log(username);
-    console.log(password);
-    console.log(email);
-    console.log(height);
-    console.log(weight);
+    if((username === auth.user.username || username.trim() === "") && (password === auth.user.password || password.trim() === "") && (email === auth.user.email || email.trim() === "") && 
+    (weight === auth.user.weight || weight === null) && (height === auth.user.height || height === null))
+    {
+      return;
+    }
+
+    axios
+      .put(`${url}/users/update-user/${auth.user.id}`, {
+        username: username === ''? auth.user.username : username,
+        email: email === ''? auth.user.email : email,
+        password: password === ''? auth.user.password : password,
+        height: height === null? auth.user.height : height,
+        weight: weight === null? auth.user.weight : weight
+      })
+      .then(response => {console.log("success")})
+      .catch(err => {
+        console.log(err);
+        Alert.alert(
+          'Used username',
+          `Username "${username}" already exists`,
+          [
+            {
+              text: 'OK'
+            }
+          ],
+          { cancelable: false }
+        );
+      })
+      setUsername('');
+      setPassword('');
+      setEmail('');
+      setWeight(null);
+      setHeight(null);
+    // TREBA UPDATE AUTH CONTEX ASI ALEBO NEVIEM
   }
   function LogOut(){
-
+    // SPRAV TO degeš
+    navigation.navigate("Login");
   }
 
   return (
@@ -33,24 +65,24 @@ const ProfileScreen = ({ navigation }) => {
       </View>
       <View style={styles.infoSection}>
         <View style={styles.longTextInput}>
-          <TextInput style={{fontSize: 15, width: '90%'}} placeholder={`Username: ${auth.user.username}`} onChangeText={(text) => setUsername(text)} />
+          <TextInput style={{fontSize: 15, width: '90%'}} placeholder={`Username: ${auth.user.username}`} value={username} onChangeText={(text) => setUsername(text)} />
           <FontAwesome5 name="pen" size={30} color={colors.green} />
         </View>
         <View style={styles.longTextInput}>
-          <TextInput style={{fontSize: 15, width: '90%'}} placeholder={`Email: ${auth.user.email}`}  onChangeText={(text) => setEmail(text)} />
+          <TextInput style={{fontSize: 15, width: '90%'}} placeholder={`Email: ${auth.user.email}`} value={email} onChangeText={(text) => setEmail(text)} />
           <FontAwesome5 name="pen" size={30} color={colors.green} />
         </View>
         <View style={styles.longTextInput}>
-          <TextInput style={{fontSize: 15, width: '90%'}} placeholder={`Password: ${auth.user.password}`}  onChangeText={(text) => setPassword(text)} />
+          <TextInput style={{fontSize: 15, width: '90%'}} placeholder={`Password: ${auth.user.password}`} value={password} onChangeText={(text) => setPassword(text)} />
           <FontAwesome5 name="pen" size={30} color={colors.green} />
         </View>
         <View style={{flexDirection: 'row', justifyContent:'space-between'}}>
           <View style={styles.shortTextInput}>
-            <TextInput keyboardType="numeric" style={{fontSize: 15, width: '80%'}} placeholder={`Height: ${auth.user.height}`}  onChangeText={(text) => setHeight(text)} />
+            <TextInput keyboardType="numeric" style={{fontSize: 15, width: '80%'}} placeholder={`Height: ${auth.user.height}`} value={height} onChangeText={(text) => setHeight(text)} />
             <FontAwesome5 name="pen" size={30} color={colors.green} />
           </View>
           <View style={styles.shortTextInput}>
-            <TextInput keyboardType="numeric" style={{fontSize: 15, width: '80%'}} placeholder={`Weight: ${auth.user.weight}`}  onChangeText={(text) => setWeight(text)} />
+            <TextInput keyboardType="numeric" style={{fontSize: 15, width: '80%'}} placeholder={`Weight: ${auth.user.weight}`} value={weight} onChangeText={(text) => setWeight(text)} />
             <FontAwesome5 name="pen" size={30} color={colors.green} />
           </View>
         </View>

@@ -48,7 +48,7 @@ const ForumItem = (props) => {
     }
 
     return (
-        <Pressable onPress={props.section.bind(this, props.title, props.id)} style={styles.Forum}>
+        <Pressable onPress={props.section.bind(this, props.title, props.id, props.closed_at, props.owner_id)} style={styles.Forum}>
             <View style={{justifyContent: 'center', width: '15%'}}><Text style={{textAlign: 'center', fontSize: 15, fontWeight: 'bold'}}>{props.votes}</Text></View>
             <View style={styles.votes}>
                 <Pressable onPress={UpVote}><AntDesign style={{marginVertical: '10%'}} name="upcircle" size={35} color={colors.green} /></Pressable>

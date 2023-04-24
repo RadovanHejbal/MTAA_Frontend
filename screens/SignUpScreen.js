@@ -1,5 +1,5 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, Pressable, TextInput, Image } from 'react-native';
+import { StyleSheet, Text, View, Pressable, TextInput, Image, Alert } from 'react-native';
 import { useState } from 'react';
 import Axios from 'axios';
 import colors from '../variables/colors';
@@ -16,12 +16,15 @@ const SignUpScreen = ({ navigation }) => {
   const [height, setHeight] = useState(null);
   const [age, setAge] = useState(null);
   const [gender, setGender] = useState('m');
+  const [pressed, setPressed] = useState(false);
 
   function signupHandler() {
     if(firstname.trim() == "" || lastname.trim() == "" || username.trim() == "" || email.trim() == "" || password.trim() == "" || !gender || !height || !weight || !age) {
-      console.log("VYPLN VSETKO BRASKO");
+      setPressed(true);
       return;
     }
+
+    // Registruj
     Axios.post(`${url}/users/registration`, {
       username: username,
       password: password,
@@ -34,10 +37,18 @@ const SignUpScreen = ({ navigation }) => {
       gender: gender,
       age: age
     }).then(response => {
-      console.log("success");
       navigation.navigate("Login");
     }).catch(err => {
-      console.log(err);
+      Alert.alert(
+        'Used username',
+        `Username "${username}" already exists`,
+        [
+          {
+            text: 'OK'
+          }
+        ],
+        { cancelable: false }
+      );
     })
   }
 
@@ -46,17 +57,17 @@ const SignUpScreen = ({ navigation }) => {
       <Text style={styles.Text}>SIGN UP</Text>
       
       <View style={styles.Weight_Height}>
-        <TextInput style={[styles.Input, {width: '30%', flex: 1}]} placeholder='First name' onChangeText={(enteredFullname) => {setFirstname(enteredFullname)}}/>
-        <TextInput style={[styles.Input, {width: '30%', flex: 1}]} placeholder='Last name' onChangeText={(enteredFullname) => {setLastname(enteredFullname)}}/>
+        <TextInput style={[firstname === '' && pressed? {borderBottomWidth: 2, borderColor: 'red'}: {borderBottomWidth: 2, borderColor: colors.green} ,styles.Input, {width: '30%', flex: 1}]} placeholder='First name' onChangeText={(enteredFullname) => {setFirstname(enteredFullname)}}/>
+        <TextInput style={[lastname === '' && pressed? {borderBottomWidth: 2, borderColor: 'red'}: {borderBottomWidth: 2, borderColor: colors.green} ,styles.Input, {width: '30%', flex: 1}]} placeholder='Last name' onChangeText={(enteredFullname) => {setLastname(enteredFullname)}}/>
       </View>
-      <TextInput style={styles.Input} placeholder='Username' onChangeText={(enteredUsername) => {setUsername(enteredUsername)}}/>
-      <TextInput style={styles.Input} placeholder='Email' onChangeText={(enteredEmail) => {setEmail(enteredEmail)}}/>
-      <TextInput style={styles.Input} placeholder='Password' onChangeText={(enteredPassword) => {setPassword(enteredPassword)}}/>
+      <TextInput style={[username === '' && pressed? {borderBottomWidth: 2, borderColor: 'red'}: {borderBottomWidth: 2, borderColor: colors.green} ,styles.Input]} placeholder='Username' onChangeText={(enteredUsername) => {setUsername(enteredUsername)}}/>
+      <TextInput style={[email === '' && pressed? {borderBottomWidth: 2, borderColor: 'red'}: {borderBottomWidth: 2, borderColor: colors.green} ,styles.Input]} placeholder='Email' onChangeText={(enteredEmail) => {setEmail(enteredEmail)}}/>
+      <TextInput style={[password === '' && pressed? {borderBottomWidth: 2, borderColor: 'red'}: {borderBottomWidth: 2, borderColor: colors.green} ,styles.Input]} placeholder='Password' onChangeText={(enteredPassword) => {setPassword(enteredPassword)}}/>
       <View style={styles.Weight_Height}>
-        <TextInput style={[styles.Input, {width: '30%', flex: 1}]} keyboardType='numeric' placeholder='Weight' onChangeText={(enteredWeight) => {setWeight(enteredWeight)}}/>
-        <TextInput style={[styles.Input, {width: '30%', flex: 1}]} keyboardType='numeric' placeholder='Height' onChangeText={(enteredHeight) => {setHeight(enteredHeight)}}/>
+        <TextInput style={[weight === null && pressed? {borderBottomWidth: 2, borderColor: 'red'}: {borderBottomWidth: 2, borderColor: colors.green} ,styles.Input, {width: '30%', flex: 1}]} keyboardType='numeric' placeholder='Weight' onChangeText={(enteredWeight) => {setWeight(enteredWeight)}}/>
+        <TextInput style={[height === null && pressed? {borderBottomWidth: 2, borderColor: 'red'}: {borderBottomWidth: 2, borderColor: colors.green} ,styles.Input, {width: '30%', flex: 1}]} keyboardType='numeric' placeholder='Height' onChangeText={(enteredHeight) => {setHeight(enteredHeight)}}/>
       </View>
-      <TextInput style={[styles.Input, {width: '30%'}]} keyboardType='numeric' placeholder='Age' onChangeText={(enteredHeight) => {setAge(enteredHeight)}}/>
+      <TextInput style={[age === null && pressed? {borderBottomWidth: 2, borderColor: 'red'}: {borderBottomWidth: 2, borderColor: colors.green} ,styles.Input, {width: '30%'}]} keyboardType='numeric' placeholder='Age' onChangeText={(enteredHeight) => {setAge(enteredHeight)}}/>
 
       {/* WEIGHT AND HEIGHT BUTTON */}
       <View style={styles.ButtonContainer}>
@@ -114,8 +125,6 @@ const styles = StyleSheet.create({
   Input: {
     padding: '3%',
     margin: '3%',
-    borderBottomWidth: 2,
-    borderBottomColor: colors.green
   },
   Weight_Height: {
     flexDirection: "row",

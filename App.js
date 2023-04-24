@@ -19,6 +19,7 @@ import RecepieSectionScreen from "./screens/Recepies/RecepieSectionScreen";
 import CoachProfile from "./screens/Coaches/CoachProfile";
 import CoachChat from "./screens/Coaches/CoachChat";
 import SearchActivity from "./screens/Home/SearchActivity";
+import ActivityDetails from "./screens/Home/ActivityDetails";
 
 const Stack = createNativeStackNavigator();
 
@@ -34,7 +35,7 @@ export default function App() {
           <Stack.Screen name="SearchMeal" component={SearchMeal} />
           <Stack.Screen name="MealDetails" component={MealDetails} />
           <Stack.Screen name="SearchActivity" component={SearchActivity} />
-          <Stack.Screen name="ActivityDetails"  />
+          <Stack.Screen name="ActivityDetails" component={ActivityDetails} />
           <Stack.Screen name="Recepies" component={RecepiesScreen} />
           <Stack.Screen name="RecepieSection" component={RecepieSectionScreen} />
           <Stack.Screen name="AddRecepie" component={RecepieAddScreen} />

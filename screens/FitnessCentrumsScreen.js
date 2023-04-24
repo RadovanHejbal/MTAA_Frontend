@@ -1,16 +1,37 @@
 import { useState, useEffect } from "react";
-import { View, Text, StyleSheet, SafeAreaView, Pressable, Alert, Linking } from "react-native";
+import { View, Text, StyleSheet, SafeAreaView, Pressable, Alert, Linking, FlatList } from "react-native";
 import MapView from 'react-native-maps';
 import * as GeoLocation from 'expo-location';
 import colors from "../variables/colors";
 import { AntDesign } from '@expo/vector-icons'; 
+import cheerio from 'cheerio';
+import FitnessCentrumItem from "../components/fitnessCentrums/FitnessCentrumItem";
 
 const FitnessCentrumsScreen = ({ navigation }) => {
   const [location, setLocation] = useState(null);
+  const [gyms, setGyms] = useState([]);
 
   function goHome(){
     navigation.navigate("Home");
   }
+
+  const SearchNearbyFitnessCenters = async (latitude, longitude, radius) => {
+    const url = `https://nominatim.openstreetmap.org/search?format=json&addressdetails=1&q=gym`;
+  
+    try {
+      const response = await fetch(url);
+      const data = await response.json();
+  
+      const gymsFromMap = data.map(item => ({
+        name: item.display_name,
+        lat: item.lat,
+        lon: item.lon
+      }));
+      setGyms(gymsFromMap);
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   useEffect(() => {
     const getPermissions = async () => {
@@ -26,7 +47,7 @@ const FitnessCentrumsScreen = ({ navigation }) => {
               style: 'cancel'
             },
             {
-              text: 'OK',
+              text: 'Allow',
               onPress: () => {
                 Linking.openSettings(); // Open device settings
                 goHome();
@@ -61,7 +82,8 @@ const FitnessCentrumsScreen = ({ navigation }) => {
 
       var currenLocation = await GeoLocation.getCurrentPositionAsync({});
       setLocation(currenLocation);
-    };
+      SearchNearbyFitnessCenters(currenLocation.coords.latitude, currenLocation.coords.longitude, 10);
+    };    
     getPermissions();
   }, []);
 
@@ -89,12 +111,13 @@ const FitnessCentrumsScreen = ({ navigation }) => {
           </View>
         </View>
         <View style={styles.foundFitnessContainer}>
-          <Text>NIECO</Text>
-          <Text>NIECO</Text>
-          <Text>NIECO</Text>
-          <Text>NIECO</Text>
-          <Text>NIECO</Text>
-          <Text>NIECO</Text>
+        <FlatList
+            data={gyms}
+            style={{marginBottom: '5%', paddingHorizontal: '5%'}}
+            renderItem={({item}) => {
+              if(item != null) return <FitnessCentrumItem name={item.name} gymLat={item.lat} gymLon={item.lon} lat={location.coords.latitude} lon={location.coords.longitude}/>;
+            }}
+          />
         </View>
       </View>
     </SafeAreaView>
@@ -144,7 +167,7 @@ const styles = StyleSheet.create({
     width: '100%',
     height: '78%',
     justifyContent: 'flex-start',
-    alignItems: 'center'
+    alignItems: 'flex-end',
   }
 });
 

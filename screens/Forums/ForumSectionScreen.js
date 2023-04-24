@@ -1,4 +1,4 @@
-import React, {useContext, useEffect, useState} from "react";
+import React, {useContext, useEffect, useLayoutEffect, useState} from "react";
 import { useRoute } from "@react-navigation/native";
 import { View, Text, StyleSheet, SafeAreaView, Pressable, TextInput, FlatList } from "react-native";
 import { AntDesign } from '@expo/vector-icons'; 
@@ -14,6 +14,19 @@ const ForumSectionScreen = ({ navigation }) => {
   const [message, setMessage] = useState('');
   const [forumMessages, setforumMessages] = useState([]);
   const auth = useContext(AuthContext);
+
+  function CloseForum(){
+    axios
+      .put(`${url}/forums/close/${route.params.id}`, {
+        closed_at: new Date()
+      })
+      .then(response => {
+        navigation.navigate("Home");
+      })
+      .catch(err => {
+        console.log(err);
+      })
+  }
 
   function LoadMessages()
   {
@@ -74,19 +87,29 @@ const ForumSectionScreen = ({ navigation }) => {
         </View>
       </View>
     </View>
-    <View style={styles.messagesContainer}>
+    <View style={[{paddingTop: '5%'}, route.params.closed_at === null? {height: '82%'} : {height: '90%'}]}>
       <FlatList
         data={forumMessages}
         keyExtractor={(item) => item.id}
         renderItem={({item}) => {
-          if(item != null) return <MessageItem message={item.text} userId={auth.user.id} messageUserId={item.user_id} coache_id={item.coach_id} navigation={navigation} />;
+          if(item != null) return <MessageItem message={item.text} userId={auth.user.id} messageUserId={item.user_id} coache_id={item.coach_id} navigation={navigation}/>;
         }}
       />
     </View>
-    <View style={styles.inputMessageContainer}>
-      <TextInput style={{fontSize: 15, width: '80%', height: '100%'}} placeholder="Aa . . ." value={message} onChangeText={(text) => setMessage(text)}></TextInput>
-      <Pressable onPress={SendMessage} style={{width: '20%', height: '100%', justifyContent: 'center', alignItems: 'center'}}><MaterialCommunityIcons name="send-circle" size={50} color="black" /></Pressable>
-    </View>
+    {route.params.closed_at === null ? 
+      (
+        <View style={styles.inputMessageContainer}>
+          <TextInput style={{fontSize: 15, width: '80%', height: '100%'}} placeholder="Aa . . ." value={message} onChangeText={(text) => setMessage(text)}></TextInput>
+          <Pressable onPress={SendMessage} style={{width: '20%', height: '100%', justifyContent: 'center', alignItems: 'center'}}><MaterialCommunityIcons name="send-circle" size={50} color="black" /></Pressable>
+        </View>
+      ): null}
+    {route.params.closed_at === null && route.params.owner_id === auth.user.id ? 
+      (
+        <Pressable onPress={CloseForum} style={styles.CloseButton}>
+          <AntDesign name="checkcircle" size={45} color={colors.black} />
+        </Pressable>
+      ): null}
+    
    </View>
   );
 };
@@ -97,20 +120,19 @@ const styles = StyleSheet.create({
     width: '100%',
   },
   topSectionContainer: {
-    height: '15%',
-    paddingTop: '3%',
+    height: '10%',
     flexDirection: 'row',
   },
   buttonContainer: {
-    paddingTop: '10%',
     width: '20%',
     alignItems: 'center',
-    justifyContent: 'center',
+    justifyContent: 'flex-start',
+    paddingTop: '5%'
   },
   titleContainer: {
+    justifyContent: 'flex-start',
     width: '80%',
     paddingRight: '20%',
-    paddingTop: '10%',
   },
   section: {
     alignItems: 'flex-start',
@@ -122,10 +144,6 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-start',
     height: '50%',
   },
-  messagesContainer: {
-    height: '78%',
-    paddingTop: '5%',
-  },
   inputMessageContainer: {
     backgroundColor: colors.lightgrey,
     borderTopWidth: 2,
@@ -133,10 +151,15 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'flex-start',
     width: '100%',
-    height: '7%',
+    height: '8%',
     paddingLeft: '5%',
     flexDirection: 'row'
-  }
+  },
+  CloseButton: {
+    position: 'absolute',
+    marginTop: '1.5%',
+    marginLeft: '87.5%',
+  },
 });
 
 export default ForumSectionScreen;

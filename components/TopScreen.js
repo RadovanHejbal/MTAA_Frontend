@@ -20,7 +20,7 @@ const TopScreen = ( {navigation} ) => {
 const styles = StyleSheet.create({
     container: {
         flexDirection: 'row',
-        alignItems: 'flex-end',
+        alignItems: 'center',
         width: '100%',
         height: '10%',
     },

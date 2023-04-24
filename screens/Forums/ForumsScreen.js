@@ -66,8 +66,8 @@ const ForumsScreen = ({ navigation }) => {
     setFilteredForums(filteredForums);
   }
 
-  function goToForumSection(forumTitle, forumId){
-    navigation.navigate("ForumSection", {title: forumTitle, id: forumId})
+  function goToForumSection(forumTitle, forumId, closed_at, owner_id){
+    navigation.navigate("ForumSection", {title: forumTitle, id: forumId, closed_at: closed_at, owner_id: owner_id})
   }
 
   return (
@@ -82,7 +82,7 @@ const ForumsScreen = ({ navigation }) => {
           <FlatList
             data={filteredForums}
             renderItem={({item}) => {
-              if(item != null) return <ForumItem title={item.title} id={item.id} votes={item.upvotes} section={goToForumSection}/>;
+              if(item != null) return <ForumItem title={item.title} id={item.id} votes={item.upvotes} section={goToForumSection} closed_at={item.closed_at} owner_id={item.owner_id}/>;
             }}
           />
         </View>

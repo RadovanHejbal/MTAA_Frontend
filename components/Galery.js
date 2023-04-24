@@ -10,6 +10,7 @@ const PickFromGalery = async () =>{
             aspect:[1,1],
             quality: 0.5
         })
+        if(image.assets[0]['height'] > 3500) return "ERROR";
         return image.assets[0]['uri'];
     }
     Alert.alert(
@@ -21,7 +22,7 @@ const PickFromGalery = async () =>{
             style: 'cancel'
           },
           {
-            text: 'OK',
+            text: 'Allow',
             onPress: Linking.openSettings
           }
         ],

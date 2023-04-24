@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet, SafeAreaView, Pressable, TextInput, Dimensions, Image } from "react-native";
+import { View, Text, StyleSheet, SafeAreaView, Pressable, TextInput, Dimensions, Image, Alert } from "react-native";
 import { MaterialIcons } from '@expo/vector-icons';
 import colors from "../../variables/colors";
 import { AntDesign } from '@expo/vector-icons';
@@ -18,7 +18,16 @@ const RecepieAddScreen = ({ navigation }) => {
 
   function AddRecepie(){
     if(recepieName.trim() == "" || recepieProcess.trim() == ""){
-        console.log("nechyba ti nieco?");
+        Alert.alert(
+            'Something is missing',
+            'Name and process are required',
+            [
+              {
+                text: 'OK'
+              }
+            ],
+            { cancelable: false }
+          );
         return;
     }
     axios
@@ -28,9 +37,7 @@ const RecepieAddScreen = ({ navigation }) => {
         picture: image,
         ownerId: auth.user.id
       })
-      .then(response => {
-        console.log("success");
-      })
+      .then(response => {})
       .catch(err => {
         console.log(err);
     });
@@ -83,7 +90,24 @@ const RecepieAddScreen = ({ navigation }) => {
                     <Pressable onPress={async () => {setImage(await PickFromCamera()); setVisible(false)}}><Text style={{fontSize: 15, color: colors.white}}>Camera</Text></Pressable>
                 </View>
                 <View style={styles.chooseButton}>
-                    <Pressable onPress={async () => {setImage(await PickFromGalery()); setVisible(false)}}><Text style={{fontSize: 15, color: colors.white}}>Galery</Text></Pressable>
+                    <Pressable onPress={async () => {
+                        setImage(await PickFromGalery()); 
+                        setVisible(false);
+                        if(image == "ERROR")
+                        {
+                            Alert.alert(
+                                'Image size',
+                                'The size of the embedded image is too large',
+                                [
+                                  {
+                                    text: 'OK'
+                                  }
+                                ],
+                                { cancelable: false }
+                              );
+                            setImage(null);
+                        }
+                    }}><Text style={{fontSize: 15, color: colors.white}}>Galery</Text></Pressable>
                 </View>
                 <View style={{marginLeft: '2%'}}>
                     <Pressable onPress={() => setVisible(false)}><AntDesign name="closecircle" size={30} color="black" /></Pressable>

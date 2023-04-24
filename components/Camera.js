@@ -22,7 +22,7 @@ const PickFromCamera = async () =>{
             style: 'cancel'
           },
           {
-            text: 'OK',
+            text: 'Allow',
             onPress: Linking.openSettings
           }
         ],
