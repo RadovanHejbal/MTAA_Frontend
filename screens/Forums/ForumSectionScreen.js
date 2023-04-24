@@ -14,7 +14,6 @@ const ForumSectionScreen = ({ navigation }) => {
   const [message, setMessage] = useState('');
   const [forumMessages, setforumMessages] = useState([]);
   const auth = useContext(AuthContext);
-  this.TextInput = React.createRef(); 
 
   function LoadMessages()
   {
@@ -32,7 +31,6 @@ const ForumSectionScreen = ({ navigation }) => {
   }, []);
 
   async function SendMessage() {
-    console.log(auth.user);
     if(message.length > 250){
       console.log("Moc dlhe");
       return;
@@ -59,9 +57,7 @@ const ForumSectionScreen = ({ navigation }) => {
 
     LoadMessages();
     setMessage('');
-    this.TextInput.current.clear();
   }
-
   
   return (
    <View style={styles.container}>
@@ -83,12 +79,12 @@ const ForumSectionScreen = ({ navigation }) => {
         data={forumMessages}
         keyExtractor={(item) => item.id}
         renderItem={({item}) => {
-          if(item != null) return <MessageItem message={item.text} userId={auth.user.id} messageUserId={item.user_id} coache_id={item.coach_id}/>;
+          if(item != null) return <MessageItem message={item.text} userId={auth.user.id} messageUserId={item.user_id} coache_id={item.coach_id} navigation={navigation} />;
         }}
       />
     </View>
     <View style={styles.inputMessageContainer}>
-      <TextInput ref={this.TextInput} style={{fontSize: 15, width: '80%', height: '100%'}} placeholder="Aa . . ." onChangeText={(text) => setMessage(text)}></TextInput>
+      <TextInput style={{fontSize: 15, width: '80%', height: '100%'}} placeholder="Aa . . ." value={message} onChangeText={(text) => setMessage(text)}></TextInput>
       <Pressable onPress={SendMessage} style={{width: '20%', height: '100%', justifyContent: 'center', alignItems: 'center'}}><MaterialCommunityIcons name="send-circle" size={50} color="black" /></Pressable>
     </View>
    </View>

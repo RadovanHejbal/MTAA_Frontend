@@ -2,14 +2,11 @@ import { Pressable, Text, View, StyleSheet } from "react-native";
 import colors from "../../variables/colors";
 
 const MessageItem = (props) => {
-    function GoToCoache(){
-        console.log(props.coache_id);
-    }
     
     if(props.coache_id != null){
         return (
             <View style={[styles.coacheMessage, props.userId == props.messageUserId ? {alignSelf: 'flex-end'} : {alignSelf: 'flex-start'}]}>
-                <Pressable onPress={GoToCoache}><Text style={{fontSize: 15, color: colors.white, flex: 1, flexWrap: 'wrap'}}>{props.message}</Text></Pressable>
+                <Pressable onPress={props.navigation.navigate('CoachProfile', {id: props.coache_id})}><Text style={{fontSize: 15, color: colors.white, flex: 1, flexWrap: 'wrap'}}>{props.message}</Text></Pressable>
             </View>
         )
     }

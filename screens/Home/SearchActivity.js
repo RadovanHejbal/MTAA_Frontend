@@ -5,41 +5,41 @@ import colors from "../../variables/colors";
 import axios from "axios";
 import Item from "../../components/homescreen/Item";
 
-const SearchMeal = ({ navigation }) => {
-  const [meals, setMeals] = useState([]);
-  const [filteredMeals, setFilteredMeals] = useState([]);
+const SearchActivity = ({ navigation }) => {
+  const [activities, setActivities] = useState([]);
+  const [filteredActivities, setFilteredActivities] = useState([]);
 
   useEffect(() => {
     axios
-      .get(`${url}/meals`)
+      .get(`${url}/activities`)
       .then((response) => {
-        setMeals(response.data);
-        setFilteredMeals(response.data);
+        setActivities(response.data);
+        setFilteredActivities(response.data);
       })
       .catch((err) => {
         console.log(err);
       });
   }, []);
 
-  function searchMeal(text) {
-    const filteredItems = meals.filter((item) => {
+  function searchActivity(text) {
+    const filteredItems = activities.filter((item) => {
       const title = item.title.toLowerCase(); // convert title to lowercase
       return title.includes(text.toLowerCase()); // convert text to lowercase and use includes method
     });
-    setFilteredMeals(filteredItems);
+    setFilteredActivities(filteredItems);
   }
 
-  function goToDetails(mealId) {
-    navigation.navigate("MealDetails", { id: mealId });
+  function goToDetails(activityId) {
+    navigation.navigate("ActivityDetails", { id: activityId });
   }
 
   return (
     <SafeAreaView style={styles.container}>
       <Pressable style={styles.back} onPress={() => {navigation.navigate('Home')}}><Text>back</Text></Pressable>
-      <TextInput placeholder="search" onChangeText={searchMeal} style={styles.search} />
+      <TextInput placeholder="search" onChangeText={searchActivity} style={styles.search} />
       <FlatList
         style={styles.mealsContainer}
-        data={filteredMeals}
+        data={filteredActivities}
         renderItem={({ item }) => {
           return <Item title={item.title} details={goToDetails} id={item.id} />;
         }}
@@ -70,4 +70,4 @@ const styles = StyleSheet.create({
   }
 })
 
-export default SearchMeal;
+export default SearchActivity;

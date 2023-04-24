@@ -13,7 +13,7 @@ const NavBar = ({ navigation, current }) => {
         </Pressable>
       </View>
       <View style={styles.item}>
-        <Pressable onPress={() => {current != "Coaches" && navigation.replace("Coaches")}}>
+        <Pressable onPress={() => {current != "Coaches" && navigation.replace("MyCoaches")}}>
           <View style={styles.icon}>
             <FontAwesome5
               style={styles.icon}

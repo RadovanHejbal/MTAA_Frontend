@@ -9,12 +9,16 @@ import SearchMeal from "./screens/Home/SearchMeal";
 import MealDetails from "./screens/Home/MealDetails";
 import RecepiesScreen from "./screens/Recepies/RecepiesScreen";
 import ForumsScreen from "./screens/Forums/ForumsScreen";
+import MyCoachesScreen from "./screens/Coaches/MyCoachesScreen";
 import CoachesScreen from "./screens/Coaches/CoachesScreen";
 import ProfileScreen from "./screens/ProfileScreen"
 import FitnessCentrumsScreen from "./screens/FitnessCentrumsScreen";
 import ForumSectionScreen from "./screens/Forums/ForumSectionScreen";
 import RecepieAddScreen from "./screens/Recepies/RecepieAddScreen";
 import RecepieSectionScreen from "./screens/Recepies/RecepieSectionScreen";
+import CoachProfile from "./screens/Coaches/CoachProfile";
+import CoachChat from "./screens/Coaches/CoachChat";
+import SearchActivity from "./screens/Home/SearchActivity";
 
 const Stack = createNativeStackNavigator();
 
@@ -29,12 +33,17 @@ export default function App() {
           <Stack.Screen name="Home" component={HomeScreen} />
           <Stack.Screen name="SearchMeal" component={SearchMeal} />
           <Stack.Screen name="MealDetails" component={MealDetails} />
+          <Stack.Screen name="SearchActivity" component={SearchActivity} />
+          <Stack.Screen name="ActivityDetails"  />
           <Stack.Screen name="Recepies" component={RecepiesScreen} />
           <Stack.Screen name="RecepieSection" component={RecepieSectionScreen} />
           <Stack.Screen name="AddRecepie" component={RecepieAddScreen} />
           <Stack.Screen name="Forums" component={ForumsScreen} />
           <Stack.Screen name="ForumSection" component={ForumSectionScreen} />
+          <Stack.Screen name="MyCoaches" component={MyCoachesScreen} />
+          <Stack.Screen name="CoachChat" component={CoachChat} />
           <Stack.Screen name="Coaches" component={CoachesScreen} /> 
+          <Stack.Screen name="CoachProfile" component={CoachProfile} />
           <Stack.Screen name="Profile" component={ProfileScreen} />
           <Stack.Screen name="Fitness" component={FitnessCentrumsScreen} />
         </Stack.Navigator>

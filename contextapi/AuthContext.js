@@ -12,7 +12,8 @@ export const AuthContext = React.createContext({
   logout: () => {},
   daily: () => {},
   addMeal: () => {},
-  deleteMeal: () => {}
+  deleteMeal: () => {},
+  addActivity: () => {}
 });
 
 const AuthContextProvider = (props) => {
@@ -34,7 +35,8 @@ const AuthContextProvider = (props) => {
 
   function logoutHandler() {
     setUser(null);
-    setDaily(null);
+    setDailyActivities(null);
+    setDailyMeals(null);
     setIsCoach(false);
     setIsAdmin(false);
   };
@@ -55,7 +57,11 @@ const AuthContextProvider = (props) => {
   }
 
   function deleteMeal(meal) {
-    setDailyMeals({fat: dailyMeals.fat - meal.fat, carbs: dailyMeals.carbs - meal.carbs, protein: dailyMeals.protein - meal.protein, kcal: dailyMeals.kcal - meal.kcal, meals: dailyMeals.filter(el => el.id != meal.id)});
+    setDailyMeals({fat: dailyMeals.fat - meal.fat, carbs: dailyMeals.carbs - meal.carbs, protein: dailyMeals.protein - meal.protein, kcal: dailyMeals.kcal - meal.kcal, meals: dailyMeals.meals.filter(el => el.id != meal.id)});
+  }
+
+  function addActivity(activity) {
+    setDailyActivities({kcal: dailyActivities.kcal + activity.kcal, activities: [...dailyActivities.activities, activity]});
   }
 
   return (
@@ -66,6 +72,7 @@ const AuthContextProvider = (props) => {
         daily: loginDailyHandler,
         addMeal,
         deleteMeal,
+        addActivity,
         isAdmin,
         isCoach,
         user,

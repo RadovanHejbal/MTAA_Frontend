@@ -1,4 +1,4 @@
-import { View, StyleSheet, SafeAreaView, FlatList } from "react-native";
+import { View, StyleSheet, SafeAreaView, FlatList, Text } from "react-native";
 import { useContext } from "react";
 import { AuthContext } from "../../contextapi/AuthContext";
 import TopScreen from "../../components/TopScreen";
@@ -16,7 +16,7 @@ const HomeScreen = ({ navigation }) => {
   }
 
   function addActivity() {
-    console.log("ADD ACTIVITY");
+    navigation.navigate("SearchActivity");
   }
 
   function deleteMeal(mealToDelete) {
@@ -39,7 +39,7 @@ const HomeScreen = ({ navigation }) => {
           />
           <DayInfo
             title="Activities"
-            subtitle={`${parseInt(auth.dailyActivities.kcal).toFixed(0)} kcal`}
+            subtitle={`-${parseInt(auth.dailyActivities.kcal).toFixed(0)} kcal`}
             add={addActivity}
           />
           <DayInfo title="Weight" subtitle={`${auth.user.weight} kg`} />
@@ -50,7 +50,8 @@ const HomeScreen = ({ navigation }) => {
           <View></View>
           <View></View>
         </View>
-        <FlatList data={auth.dailyMeals.meals} renderItem={({item}) => {
+        <Text style={styles.yourTitle}>Your meals today</Text>
+        <FlatList style={styles.ownedMeals} data={auth.dailyMeals.meals} renderItem={({item}) => {
           return <OwnedMeal meal={item} delete={deleteMeal} />
         }} />
       </View>
@@ -72,6 +73,15 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     marginTop: 24,
   },
+  ownedMeals: {
+    padding: 24
+  },
+  yourTitle: {
+    fontWeight: 700,
+    paddingTop: 24,
+    paddingLeft: 24,
+    fontSize: 24
+  }
 });
 
 export default HomeScreen;

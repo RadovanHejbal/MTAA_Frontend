@@ -1,35 +1,50 @@
-import { View, Text, StyleSheet, SafeAreaView, Pressable, FlatList } from "react-native";
-import TopScreen from "../../components/TopScreen";
+import { SafeAreaView, View, Text, Pressable, StyleSheet, FlatList } from "react-native";
 import NavBar from "../../components/NavBar";
-import colors from "../../variables/colors";
+import TopScreen from "../../components/TopScreen";
 import { useEffect, useState, useContext } from "react";
-import axios from 'axios';
-import url from '../../variables/url';
-import { AuthContext} from '../../contextapi/AuthContext';
+import { AuthContext } from "../../contextapi/AuthContext";
+import CoachItem from "../../components/coaches/CoachItem";
+import colors from "../../variables/colors";
+import axios from "axios";
+import url from "../../variables/url";
 
-const CoachesScreen = ({ navigation }) => {
-  const [myCoaches, setMyCoaches] = useState([]);
+const CoachesScreen = ({navigation}) => {
+  const [coaches, setCoaches] = useState([]);
   const auth = useContext(AuthContext);
 
   useEffect(() => {
-    axios.get(`${url}/coaches/relations/${auth.user.id}`).then(response => {
-      setMyCoaches(response.data);
-    }).catch(err => {
-      console.log(err);
-    })
-  })
+    axios
+      .get(`${url}/coaches`)
+      .then((response) => {
+        setCoaches(response.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, []);
+
+  function openCoachHandler(id) {
+
+  }
 
   return (
     <SafeAreaView style={styles.container}>
-      <TopScreen navigation={navigation}/>
+      <TopScreen navigation={navigation} />
       <View style={styles.SectionContainer}>
         <Text style={styles.Section}>Coaches</Text>
       </View>
-      <Pressable><Text>Buy a coach!</Text></Pressable>
-      {myCoaches.length > 0 ? <FlatList data={myCoaches} keyExtractor={item => item.id} renderItem={({item}) => {
-        return 
-      }} /> : <Text>You dont have any coach. Try and buy one.</Text>}
-      <NavBar navigation={navigation} current="Coaches" />
+      {coaches.length > 0 ? (
+        <FlatList
+          data={coaches}
+          keyExtractor={(item) => item.id}
+          renderItem={({ item }) => {
+            return <CoachItem name={item.firstname + " " + item.lastname} id={item.id} specialization={item.specializaion} navigation={navigation} />
+          }}
+        />
+      ) : (
+        <Text>There are no more coaches available for you</Text>
+      )}
+      <NavBar navigation={navigation} />
     </SafeAreaView>
   );
 };
@@ -41,15 +56,15 @@ const styles = StyleSheet.create({
     width: "100%",
   },
   SectionContainer: {
-    width:'100%',
-    alignItems: 'center',
-    padding: '5%'
+    width: "100%",
+    alignItems: "center",
+    padding: "5%",
   },
   Section: {
     fontSize: 25,
-    fontStyle: 'italic',
-    color: colors.darkgrey
-  }
+    fontStyle: "italic",
+    color: colors.darkgrey,
+  },
 });
 
 export default CoachesScreen;

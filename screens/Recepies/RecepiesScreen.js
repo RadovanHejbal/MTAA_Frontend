@@ -27,7 +27,8 @@ const RecepiesScreen = ({ navigation }) => {
   }
   useEffect(() => {
     LoadRecepies();
-  }, [recepies]);
+  }, []);
+
   
   function searchRecepies(text){
     const filteredRecepies = recepies.filter((item) => {

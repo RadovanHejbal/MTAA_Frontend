@@ -6,26 +6,23 @@ import url from "../../variables/url";
 import colors from "../../variables/colors";
 import { AuthContext } from "../../contextapi/AuthContext";
 
-const MealDetails = (props) => {
+const ActivityDetails = (props) => {
     const auth = useContext(AuthContext);
     const route = useRoute();
     const { id } = route.params;
     const [details, setDetails] = useState({
         title: "",
         kcal: 0,
-        protein: 0,
-        carbohydrates: 0,
-        fat: 0,
         id: ""
     });
-    const [grams, setGrams] = useState(100);
+    const [time, setTime] = useState(30);
 
     function errorHandler() {
         props.navigation.navigate("Home");
     }
 
     useEffect(() => {
-        axios.get(`${url}/meals/details/${id}`).then(response => {
+        axios.get(`${url}/activities/details/${id}`).then(response => {
             setDetails(response.data);
         }).catch(err => {
             Alert.alert('Something went wrong', 'Try to reload a page', 
@@ -33,21 +30,21 @@ const MealDetails = (props) => {
         })
     }, []);
 
-    function gramsChange(text) {
-        setGrams(parseInt(text));
+    function timeChange(text) {
+        setTime(parseInt(text));
     }
 
-    function addMeal() {
-        if(!grams) {
+    function addActivity() {
+        if(!time) {
             return;
         }
-        axios.post(`${url}/meals/add`, {
+        axios.post(`${url}/activities/add`, {
             ownerId: auth.user.id,
-            grams: grams,
+            time: time,
             date: new Date(),
-            mealId: id
+            activityId: id
         }).then(response => {
-            auth.addMeal({kcal: response.data.grams * details.kcal, protein: response.data.grams * details.protein, fat: response.data.grams * details.fat, carbs: response.data.grams * details.carbohydrates, grams: response.data.grams, title: details.title, id: response.data.id});
+            auth.addActivity({kcal: response.data.time_amount * details.kcal, title: details.title, id: response.data.id});
             props.navigation.navigate("Home");
         }).catch(err => {
             console.log(err);
@@ -58,16 +55,11 @@ const MealDetails = (props) => {
     return <SafeAreaView style={styles.container}>
         <Text style={styles.title}>{details.title}</Text>
         <View>
-            <Text style={styles.text}>{grams ? (details.kcal * grams).toFixed(0) : 0} kcal</Text>
-            <View>
-                <Text style={styles.text}>{grams ? (details.protein * grams).toFixed(0) : 0} protein</Text>
-                <Text style={styles.text}>{grams ? (details.fat * grams).toFixed(0) : 0} fat</Text>
-                <Text style={styles.text}>{grams ? (details.carbohydrates * grams).toFixed(0) : 0} carbs</Text>
-            </View>
+            <Text style={styles.text}>{time ? (details.kcal * time).toFixed(0) : 0} kcal</Text>
         </View>
-        <TextInput placeholder="grams" keyboardType="numeric" onChangeText={gramsChange} style={styles.input} />
-        <Pressable onPress={addMeal} style={styles.button}><Text style={styles.buttonText}>Add meal</Text></Pressable>
-        <Pressable onPress={() => {props.navigation.navigate('SearchMeal')}} style={styles.cancel}><Text style={styles.cancelText}>Cancel</Text></Pressable>
+        <TextInput placeholder="time" keyboardType="numeric" onChangeText={timeChange} style={styles.input} />
+        <Pressable onPress={addActivity} style={styles.button}><Text style={styles.buttonText}>Add meal</Text></Pressable>
+        <Pressable onPress={() => {props.navigation.navigate('SearchActivity')}} style={styles.cancel}><Text style={styles.cancelText}>Cancel</Text></Pressable>
     </SafeAreaView>
 }
 
@@ -111,4 +103,4 @@ const styles = StyleSheet.create({
     },
 })
 
-export default MealDetails;
+export default ActivityDetails;
