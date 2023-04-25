@@ -45,7 +45,7 @@ const AuthContextProvider = (props) => {
     setDailyMeals(data.meals);
     setDailyActivities(data.activities);
     if(!data.meals) {
-      setDailyMeals({kcal: 0, protein: 0, fat: 0, carbs: 0, meals: []})
+      setDailyMeals({kcal: 0, protein: 0, fat: 0, carbs: 0, meals: []});
     }
     if(!data.activities) {
       setDailyActivities({activities: [], kcal: 0});

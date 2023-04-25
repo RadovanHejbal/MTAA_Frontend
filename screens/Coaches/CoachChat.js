@@ -29,11 +29,12 @@ const CoachChat = ({navigation}) => {
         socket.emit('join', {relationId: id});
         socket.on('message', (data) => {
             if(auth.user.id != data.userId) {
+                console.log(data);
                 setMessages(previous => {
-                    return [data, ...previous];
+                    return [...previous, data];
                 })
             }else {
-                console.log(data);
+                //console.log(data);
             }
         })
 
@@ -54,8 +55,6 @@ const CoachChat = ({navigation}) => {
         })
         setMessage("");
     }
-
-    console.log(messages);
 
     return <SafeAreaView style={styles.container} >
         <View style={styles.topView}>

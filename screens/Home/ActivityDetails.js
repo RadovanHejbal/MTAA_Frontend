@@ -58,7 +58,7 @@ const ActivityDetails = (props) => {
             <Text style={styles.text}>{time ? (details.kcal * time).toFixed(0) : 0} kcal</Text>
         </View>
         <TextInput placeholder="time" keyboardType="numeric" onChangeText={timeChange} style={styles.input} />
-        <Pressable onPress={addActivity} style={styles.button}><Text style={styles.buttonText}>Add meal</Text></Pressable>
+        <Pressable onPress={addActivity} style={styles.button}><Text style={styles.buttonText}>Add activity</Text></Pressable>
         <Pressable onPress={() => {props.navigation.navigate('SearchActivity')}} style={styles.cancel}><Text style={styles.cancelText}>Cancel</Text></Pressable>
     </SafeAreaView>
 }

@@ -20,6 +20,7 @@ import CoachProfile from "./screens/Coaches/CoachProfile";
 import CoachChat from "./screens/Coaches/CoachChat";
 import SearchActivity from "./screens/Home/SearchActivity";
 import ActivityDetails from "./screens/Home/ActivityDetails";
+import ClientsScreen from "./screens/Coaches/ClientsScreen";
 
 const Stack = createNativeStackNavigator();
 
@@ -41,6 +42,7 @@ export default function App() {
           <Stack.Screen name="AddRecepie" component={RecepieAddScreen} />
           <Stack.Screen name="Forums" component={ForumsScreen} />
           <Stack.Screen name="ForumSection" component={ForumSectionScreen} />
+          <Stack.Screen name="Clients" component={ClientsScreen} />
           <Stack.Screen name="MyCoaches" component={MyCoachesScreen} />
           <Stack.Screen name="CoachChat" component={CoachChat} />
           <Stack.Screen name="Coaches" component={CoachesScreen} /> 
