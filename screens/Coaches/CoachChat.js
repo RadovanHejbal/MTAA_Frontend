@@ -46,6 +46,9 @@ const CoachChat = ({navigation}) => {
     }, [navigation])
 
     function sendMessage() {
+        if(message.trim() == "") {
+            return;
+        }
         const uu = uuid.v4();
         const date = new Date();
 

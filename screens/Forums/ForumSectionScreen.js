@@ -73,7 +73,7 @@ const ForumSectionScreen = ({ navigation }) => {
   }
   
   return (
-   <View style={styles.container}>
+   <SafeAreaView style={styles.container}>
     <View style={styles.topSectionContainer}>
       <View style={styles.buttonContainer}>
         <Pressable onPress={() => {navigation.navigate("Forums")}}><AntDesign name="leftcircle" size={40} color="black" /></Pressable>
@@ -110,7 +110,7 @@ const ForumSectionScreen = ({ navigation }) => {
         </Pressable>
       ): null}
     
-   </View>
+   </SafeAreaView>
   );
 };
 
