@@ -7,6 +7,7 @@ import CoachItem from "../../components/coaches/CoachItem";
 import colors from "../../variables/colors";
 import axios from "axios";
 import url from "../../variables/url";
+import { Foundation } from '@expo/vector-icons';
 
 const CoachesScreen = ({navigation}) => {
   const [coaches, setCoaches] = useState([]);
@@ -31,19 +32,29 @@ const CoachesScreen = ({navigation}) => {
     <SafeAreaView style={styles.container}>
       <TopScreen navigation={navigation} />
       <View style={styles.SectionContainer}>
-        <Text style={styles.Section}>Coaches</Text>
+        <View style={{width: '100%', alignItems: 'center'}}>
+          <Text style={styles.Section}>Coaches</Text>
+        </View>
       </View>
-      {coaches.length > 0 ? (
-        <FlatList
-          data={coaches}
-          keyExtractor={(item) => item.id}
-          renderItem={({ item }) => {
-            return <CoachItem name={item.firstname + " " + item.lastname} id={item.id} specialization={item.specializaion} navigation={navigation} />
-          }}
-        />
-      ) : (
-        <Text>There are no more coaches available for you</Text>
-      )}
+      <View style={styles.CoachesContainer}>
+        {
+          coaches.length > 0 ? 
+          (
+            <FlatList
+              data={coaches}
+              keyExtractor={(item) => item.id}
+              renderItem={({ item }) => {
+                return <CoachItem name={item.firstname + " " + item.lastname} id={item.id} specialization={item.specializaion} navigation={navigation} />
+              }}
+            />
+          ) : (
+                <View style={{height: '50%', justifyContent: 'flex-end', alignItems: 'center'}}>
+                  <Text style={{fontSize: 15, color: 'lightgrey'}}>No trainers are currently registered</Text>
+                  <Foundation name="magnifying-glass" size={70} color="lightgrey" />
+                </View>
+              )
+        }
+      </View>
       <NavBar navigation={navigation} />
     </SafeAreaView>
   );
@@ -59,11 +70,18 @@ const styles = StyleSheet.create({
     width: "100%",
     alignItems: "center",
     padding: "5%",
+    flexDirection: 'row',
   },
   Section: {
     fontSize: 25,
     fontStyle: "italic",
     color: colors.darkgrey,
+  },
+  CoachesContainer: {
+    width: '100%', 
+    height: '74%', 
+    justifyContent: 'flex-start',
+    alignItems: 'center'
   },
 });
 

@@ -7,6 +7,7 @@ import { AuthContext } from "../../contextapi/AuthContext";
 import colors from "../../variables/colors";
 import axios from "axios";
 import url from "../../variables/url";
+import { Foundation } from '@expo/vector-icons';
 
 const ClientsScreen = ({ navigation }) => {
     const [clients, setClients] = useState([]);
@@ -14,7 +15,6 @@ const ClientsScreen = ({ navigation }) => {
 
   useEffect(() => {
     axios.get(`${url}/coaches/owned-clients/${auth.user.coachId}`).then(response => {
-        console.log(response.data);
       setClients(response.data);
     }).catch(err => {
       console.log(err);
@@ -25,26 +25,34 @@ const ClientsScreen = ({ navigation }) => {
     <SafeAreaView style={styles.container}>
       <TopScreen navigation={navigation} />
       <View style={styles.SectionContainer}>
-        <Text style={styles.Section}>My Clients</Text>
+        <Text style={styles.Section}>Clients</Text>
       </View>
-      {clients.length > 0 ? (
-        <FlatList
-          data={clients}
-          keyExtractor={(item) => item.id}
-          renderItem={({ item }) => {
-            return (
-              <MyCoachItem
-                name={item.firstname + " " + item.lastname}
-                id={item.id}
-                specialization={item.specializaion}
-                navigation={navigation}
-              />
-            );
-          }}
-        />
-      ) : (
-        <Text>You dont have any client yet.</Text>
-      )}
+      <View style={styles.MyClients}>
+        {
+          clients.length > 0 ? 
+          (
+            <FlatList
+              data={clients}
+              keyExtractor={(item) => item.id}
+              renderItem={({ item }) => {
+                return (
+                  <MyCoachItem
+                    name={item.firstname + " " + item.lastname}
+                    id={item.id}
+                    specialization={item.specializaion}
+                    navigation={navigation}
+                  />
+                );
+              }}
+            />
+          ) : ( 
+            <View style={{height: '50%', justifyContent: 'flex-end', alignItems: 'center'}}>
+              <Text style={{fontSize: 18, color: 'lightgrey'}}>You dont have any clients yet</Text>
+              <Foundation name="magnifying-glass" size={80} color="lightgrey" />
+            </View>
+          )
+        }
+      </View>
       <NavBar navigation={navigation} current={"Clients"} />
     </SafeAreaView>
   );
@@ -52,7 +60,6 @@ const ClientsScreen = ({ navigation }) => {
 
 const styles = StyleSheet.create({
     container: {
-      flex: 1,
       height: "100%",
       width: "100%",
     },
@@ -65,7 +72,13 @@ const styles = StyleSheet.create({
       fontSize: 25,
       fontStyle: 'italic',
       color: colors.darkgrey
-    }
+    },
+    MyClients: {
+      width: '100%', 
+      height: '74%', 
+      justifyContent: 'flex-start',
+      alignItems: 'center'
+    },
   });
 
 export default ClientsScreen;

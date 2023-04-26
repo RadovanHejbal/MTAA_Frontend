@@ -13,7 +13,6 @@ const styles = StyleSheet.create({
         padding: 8,
         marginBottom: 8,
         borderBottomWidth: 1,
-        borderRadius: 8,
         borderColor: colors.green
     },
     text: {

@@ -22,7 +22,6 @@ const ProfileScreen = ({ navigation }) => {
     {
       return;
     }
-
     axios
       .put(`${url}/users/update-user/${auth.user.id}`, {
         username: username === ''? auth.user.username : username,
@@ -31,7 +30,14 @@ const ProfileScreen = ({ navigation }) => {
         height: height === null? auth.user.height : height,
         weight: weight === null? auth.user.weight : weight
       })
-      .then(response => {console.log("success")})
+      .then(response => {
+        auth.update(username, email, password, height, weight);
+        setUsername('');
+        setPassword('');
+        setEmail('');
+        setWeight(null);
+        setHeight(null);
+      })
       .catch(err => {
         console.log(err);
         Alert.alert(
@@ -45,16 +51,10 @@ const ProfileScreen = ({ navigation }) => {
           { cancelable: false }
         );
       })
-      setUsername('');
-      setPassword('');
-      setEmail('');
-      setWeight(null);
-      setHeight(null);
-    // TREBA UPDATE AUTH CONTEX ASI ALEBO NEVIEM
   }
   function LogOut(){
-    // SPRAV TO degeš
-    navigation.navigate("Login");
+    auth.logout();
+    navigation.navigate("Login"); 
   }
 
   return (

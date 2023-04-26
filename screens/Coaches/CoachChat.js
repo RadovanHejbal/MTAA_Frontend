@@ -8,6 +8,8 @@ import url from "../../variables/url";
 import colors from "../../variables/colors";
 import { AuthContext } from "../../contextapi/AuthContext";
 import Message from "../../components/coaches/Message";
+import { MaterialCommunityIcons } from '@expo/vector-icons'; 
+import { AntDesign } from '@expo/vector-icons'; 
 
 let socket;
 
@@ -45,7 +47,7 @@ const CoachChat = ({navigation}) => {
 
     }, [navigation])
 
-    function sendMessage() {
+    function SendMessage() {
         if(message.trim() == "") {
             return;
         }
@@ -59,53 +61,57 @@ const CoachChat = ({navigation}) => {
         setMessage("");
     }
 
-    return <SafeAreaView style={styles.container} >
-        <View style={styles.topView}>
-            <Pressable onPress={() => navigation.navigate("MyCoaches")}><Text>{`<-`}</Text></Pressable>
-            <View>
-                <Text>{name}</Text>
-                <Text>{specialization}</Text>
-            </View>        
+    return <SafeAreaView style={styles.container}>
+        <View style={styles.topSection}>
+            <Pressable style={{height: '100%', width: '15%', justifyContent: 'center', alignItems: 'center'}} 
+                onPress={() => auth.isCoach ? navigation.navigate("Clients") : navigation.navigate("MyCoaches")}>
+                    <AntDesign name="leftcircle" size={40} color="black" />
+            </Pressable>
+            <View style={{justifyContent: 'center', alignItems: 'flex-end', width: '80%'}}>
+                <Text style={{fontSize: 30, color: colors.black}}>{name}</Text>
+                { auth.isCoach ? null : <Text style={{fontSize: 15, color: colors.green, fontWeight: 'bold'}}>{specialization}</Text> }
+            </View>
         </View>
-        <FlatList style={styles.list} contentContainerStyle={{alignItems: 'flex-end'}} data={messages} keyExtractor={item => item.id} renderItem={({item}) => {
-            return <Message item={item} id={auth.user.id} />
-        }} />
-        <View style={styles.inputView}>
-            <TextInput value={message} placeholder="..." onChangeText={(text) => setMessage(text)} style={styles.input} />
-            <Pressable onPress={sendMessage} style={styles.send}><Text>send</Text></Pressable>
+        <View style={styles.conversationContainer}>
+            <FlatList 
+                data={messages} 
+                keyExtractor={item => item.id} 
+                renderItem={({item}) => {
+                    return <Message item={item} id={auth.user.id} />
+            }} />
+        </View>
+        <View style={styles.inputMessageContainer}>
+          <TextInput maxLength={250} style={{fontSize: 18, width: '80%', height: '100%'}} placeholder="Aa . . ." value={message} onChangeText={(text) => setMessage(text)}></TextInput>
+          <Pressable onPress={SendMessage} style={{width: '20%', height: '100%', justifyContent: 'center', alignItems: 'center'}}><MaterialCommunityIcons name="send-circle" size={50} color="black" /></Pressable>
         </View>
     </SafeAreaView>
 }
 
 const styles = StyleSheet.create({
     container: {
-        flex: 1,
-        flexDirection: 'column',
-    },
-    list: {
-        height: '81%',
-        flexDirection: 'column',
-    },
-    topView: {
-        height: '10%',
-        alignItems: 'center',
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        paddingHorizontal: 16,
-    },
-    inputView: {
-        height: '9%',
-        flexDirection: 'row',
-    },
-    input: {
         height: '100%',
-        flexDirection: 'column',
-        justifyContent: 'flex-end',
-        width: '90%'
+        width: '100%',
+        paddingTop: '7%'
     },
-    send: {
-        width: '10%'
-    }
+    topSection: {
+        width: '100%',
+        height: '10%',
+        flexDirection: 'row',
+        borderBottomWidth: 2
+    },
+    conversationContainer: {
+        height: '81%',
+        paddingVertical: '5%'
+    },
+    inputMessageContainer: {
+        backgroundColor: 'lightgrey',
+        justifyContent: 'center',
+        alignItems: 'flex-start',
+        width: '100%',
+        height: '9%',
+        paddingLeft: '5%',
+        flexDirection: 'row'
+    },
 })
 
 export default CoachChat;

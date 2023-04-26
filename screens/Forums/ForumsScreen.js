@@ -67,7 +67,12 @@ const ForumsScreen = ({ navigation }) => {
   }
 
   function goToForumSection(forumTitle, forumId, closed_at, owner_id){
-    navigation.navigate("ForumSection", {title: forumTitle, id: forumId, closed_at: closed_at, owner_id: owner_id})
+    navigation.navigate("ForumSection", {
+      title: forumTitle, 
+      id: forumId, 
+      closed_at: closed_at, 
+      owner_id: owner_id
+    });
   }
 
   return (
@@ -94,7 +99,7 @@ const ForumsScreen = ({ navigation }) => {
             </View>
         ) :null}
         <Pressable onPress={() => setVisible(!visible)} style={styles.AddButton}>
-            <Ionicons name="add-circle-sharp" size={48} color={colors.green} />
+            {visible? <Ionicons name="close-circle" size={48} color="red" /> : <Ionicons name="add-circle-sharp" size={48} color={colors.green} />}
         </Pressable>
       </View>
       <NavBar navigation={navigation} current="Forums" />
@@ -138,18 +143,19 @@ const styles = StyleSheet.create({
     padding: '5%',
     alignItems: 'center',
   },
-  AddButton: {
-    position: 'absolute',
-    marginTop: '150%',
-    marginLeft: '85%',
-  },
   ForumsContainer: {
-    height: '85%',
+    height: '74%',
     width: '100%',
-    padding: '5%',
+    paddingTop: '5%',
     justifyContent: 'flex-start',
     alignItems: 'center',
-  }
+  },
+  AddButton: {
+    height: '11%',
+    width: '100%',
+    justifyContent: 'flex-start',
+    alignItems: 'center', 
+  },
 });
 
 export default ForumsScreen;

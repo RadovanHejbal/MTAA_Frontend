@@ -1,13 +1,27 @@
 import { Pressable, Text, View, StyleSheet, Dimensions, Image } from "react-native";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import colors from "../../variables/colors"; 
 import axios from "axios";
 import url from "../../variables/url";
 import { MaterialIcons } from '@expo/vector-icons';
+import { AuthContext } from "../../contextapi/AuthContext";
+import { AntDesign } from '@expo/vector-icons';
 
 const RecepieItem = (props) => {
     const [upPressed, setUpPressed] = useState(false);
     const [downPressed, setDownPressed] = useState(false);
+    const auth = useContext(AuthContext);
+
+    function DeleteRecepies(){
+        axios
+        .delete(`${url}/recepies/recepie-delete/${props.id}`, {})
+          .then(response => {
+            props.func();
+          })
+          .catch(err => {
+            console.log(err);
+        });
+    }
 
     function UpdateVotes(votes) {
         axios
@@ -61,6 +75,11 @@ const RecepieItem = (props) => {
                     </View>
                 </View>
             </View>
+            {auth.isAdmin ? 
+                <View style={{position: 'absolute', marginLeft: '90.5%', marginTop: '-1%'}}>
+                    <Pressable onPress={DeleteRecepies}><AntDesign name="closecircle" size={30} color="black" /></Pressable>
+                </View> : null
+            }
             <View style={styles.votes}>
                 <Pressable onPress={UpVote} style={[styles.button, {backgroundColor: colors.green, marginRight: '10%'}]}><Text style={{color: colors.white, fontSize: 15}}>+</Text></Pressable>
                 <Pressable onPress={DownVote} style={[styles.button, {backgroundColor: colors.darkgrey}]}><Text style={{color: colors.white, fontSize: 20}}>-</Text></Pressable>

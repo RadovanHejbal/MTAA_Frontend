@@ -7,6 +7,7 @@ import axios from 'axios';
 import url from '../../variables/url';
 import { AuthContext} from '../../contextapi/AuthContext';
 import MyCoachItem from "../../components/coaches/MyCoachItem";
+import { Foundation } from '@expo/vector-icons';
 
 const MyCoachesScreen = ({ navigation }) => {
   const [myCoaches, setMyCoaches] = useState([]);
@@ -26,10 +27,25 @@ const MyCoachesScreen = ({ navigation }) => {
       <View style={styles.SectionContainer}>
         <Text style={styles.Section}>My Coaches</Text>
       </View>
-      <Pressable onPress={() => navigation.navigate("Coaches")}><Text>Buy a coach!</Text></Pressable>
-      {myCoaches.length > 0 ? <FlatList data={myCoaches} keyExtractor={item => item.id} renderItem={({item}) => {
-        return <MyCoachItem name={item.firstname + " " + item.lastname} id={item.id} specialization={item.specializaion} navigation={navigation} />
-      }} /> : <Text>You dont have any coach. Try and buy one.</Text>}
+      <View style={{width: '100%', height: '74%'}}>
+        <View style={styles.BuyedCoachesContainer}>
+          {
+            myCoaches.length > 0 ? 
+              <FlatList data={myCoaches} keyExtractor={item => item.id} renderItem={({item}) => {
+                return <MyCoachItem name={item.firstname + " " + item.lastname} id={item.id} specialization={item.specializaion} navigation={navigation} />
+              }} /> : 
+              <View style={{height: '60%', justifyContent: 'flex-end', alignItems: 'center'}}>
+                <Text style={{fontSize: 18, color: 'lightgrey'}}>You dont have any coach</Text>
+                <Foundation name="magnifying-glass" size={80} color="lightgrey" />
+              </View>
+          }
+        </View>
+        <View style={styles.BuyButton}>
+          <Pressable style={{paddingHorizontal: '10%', paddingVertical: '1%', backgroundColor: colors.green, borderRadius: 30}} onPress={() => navigation.navigate("Coaches")}>
+            <Text style={{fontSize: 18, fontWeight: 'bold', color: colors.white}}>BUY</Text>
+          </Pressable>
+        </View>
+      </View>
       <NavBar navigation={navigation} current="Coaches" />
     </SafeAreaView>
   );
@@ -40,6 +56,18 @@ const styles = StyleSheet.create({
     flex: 1,
     height: "100%",
     width: "100%",
+  },
+  BuyedCoachesContainer: {
+    width: '100%', 
+    height: '91%', 
+    justifyContent: 'flex-start',
+    alignItems: 'center'
+  },
+  BuyButton: {
+    width: '100%',
+    height: '8%',
+    justifyContent: 'center',
+    alignItems: 'center'
   },
   SectionContainer: {
     width:'100%',

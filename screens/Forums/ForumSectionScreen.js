@@ -1,6 +1,6 @@
 import React, {useContext, useEffect, useLayoutEffect, useState} from "react";
 import { useRoute } from "@react-navigation/native";
-import { View, Text, StyleSheet, SafeAreaView, Pressable, TextInput, FlatList } from "react-native";
+import { View, Text, StyleSheet, SafeAreaView, Pressable, TextInput, FlatList, Alert } from "react-native";
 import { AntDesign } from '@expo/vector-icons'; 
 import colors from "../../variables/colors";
 import { MaterialCommunityIcons } from '@expo/vector-icons'; 
@@ -16,16 +16,32 @@ const ForumSectionScreen = ({ navigation }) => {
   const auth = useContext(AuthContext);
 
   function CloseForum(){
-    axios
-      .put(`${url}/forums/close/${route.params.id}`, {
-        closed_at: new Date()
-      })
-      .then(response => {
-        navigation.navigate("Home");
-      })
-      .catch(err => {
-        console.log(err);
-      })
+    Alert.alert(
+      'Close forum',
+      "Are you sure you want to close this forum?",
+      [
+        {
+          text: 'No',
+          style: 'cancel'
+        },
+        {
+          text: 'Yes',
+          onPress: () => {
+            axios
+              .put(`${url}/forums/close/${route.params.id}`, {
+                closed_at: new Date()
+              })
+              .then(response => {
+                navigation.navigate("Home");
+              })
+              .catch(err => {
+                console.log(err);
+              })
+          }
+        }
+      ],
+      { cancelable: false }
+  );
   }
 
   function LoadMessages()
@@ -44,13 +60,7 @@ const ForumSectionScreen = ({ navigation }) => {
   }, []);
 
   async function SendMessage() {
-    if(message.length > 250){
-      console.log("Moc dlhe");
-      return;
-    }
-    if(message.length == 0)
-    {
-      console.log("Moc kratke");
+    if(message.length == 0) {
       return;
     }
    
@@ -87,7 +97,7 @@ const ForumSectionScreen = ({ navigation }) => {
         </View>
       </View>
     </View>
-    <View style={[{paddingTop: '5%'}, route.params.closed_at === null? {height: '82%'} : {height: '90%'}]}>
+    <View style={[{paddingTop: '5%'}, route.params.closed_at === null? (route.params.owner_id === auth.user.id ? {height: '75%'} : {height: '82%'}) : {height: '90%'}]}>
       <FlatList
         data={forumMessages}
         keyExtractor={(item) => item.id}
@@ -96,18 +106,18 @@ const ForumSectionScreen = ({ navigation }) => {
         }}
       />
     </View>
-    {route.params.closed_at === null ? 
-      (
-        <View style={styles.inputMessageContainer}>
-          <TextInput style={{fontSize: 15, width: '80%', height: '100%'}} placeholder="Aa . . ." value={message} onChangeText={(text) => setMessage(text)}></TextInput>
-          <Pressable onPress={SendMessage} style={{width: '20%', height: '100%', justifyContent: 'center', alignItems: 'center'}}><MaterialCommunityIcons name="send-circle" size={50} color="black" /></Pressable>
-        </View>
-      ): null}
     {route.params.closed_at === null && route.params.owner_id === auth.user.id ? 
       (
         <Pressable onPress={CloseForum} style={styles.CloseButton}>
           <AntDesign name="checkcircle" size={45} color={colors.black} />
         </Pressable>
+      ): null}
+    {route.params.closed_at === null ? 
+      (
+        <View style={styles.inputMessageContainer}>
+          <TextInput maxLength={250} style={{fontSize: 15, width: '80%', height: '100%'}} placeholder="Aa . . ." value={message} onChangeText={(text) => setMessage(text)}></TextInput>
+          <Pressable onPress={SendMessage} style={{width: '20%', height: '100%', justifyContent: 'center', alignItems: 'center'}}><MaterialCommunityIcons name="send-circle" size={50} color="black" /></Pressable>
+        </View>
       ): null}
     
    </SafeAreaView>
@@ -118,6 +128,7 @@ const styles = StyleSheet.create({
   container: {
     height: '100%',
     width: '100%',
+    paddingTop: '10%'
   },
   topSectionContainer: {
     height: '10%',
@@ -146,8 +157,6 @@ const styles = StyleSheet.create({
   },
   inputMessageContainer: {
     backgroundColor: colors.lightgrey,
-    borderTopWidth: 2,
-    borderColor: colors.green,
     justifyContent: 'center',
     alignItems: 'flex-start',
     width: '100%',
@@ -156,9 +165,10 @@ const styles = StyleSheet.create({
     flexDirection: 'row'
   },
   CloseButton: {
-    position: 'absolute',
-    marginTop: '1.5%',
-    marginLeft: '87.5%',
+    width: '100%',
+    height: '7%',
+    justifyContent: 'center',
+    alignItems: 'center',
   },
 });
 

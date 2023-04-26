@@ -28,6 +28,8 @@ const LoginScreen = ({ navigation }) => {
         }else {
           auth.login(response.data);
         }
+        setEnteredUsername('');
+        setEnteredPassword('');
         navigation.navigate("Loading");
       }catch(err) {
         setWrongInput(true);
@@ -39,8 +41,26 @@ const LoginScreen = ({ navigation }) => {
       <Image style={styles.Logo} source={require('../images/Logo.png')}/>
       <View style={styles.InputContainer}>
         <Text style={styles.Text}>FitMe</Text>
-        <TextInput style={[styles.Input, wrongInput && styles.wrongInput]} placeholder='Username' onChangeText={(enteredUsername) => {if(wrongInput) setWrongInput(false); setEnteredUsername(enteredUsername)}}/>
-        <TextInput autoCorrect={false} secureTextEntry style={[styles.Input, wrongInput && styles.wrongInput]} placeholder='Password' onChangeText={(enteredPassword) => {if(wrongInput) setWrongInput(false); setEnteredPassword(enteredPassword)}}/>
+        <TextInput 
+          value={enteredUsername} 
+          style={[styles.Input, wrongInput && styles.wrongInput]} 
+          placeholder='Username' 
+          onChangeText={(enteredUsername) => {
+            if(wrongInput) setWrongInput(false); 
+            setEnteredUsername(enteredUsername)}
+            }
+        />
+        <TextInput 
+          value={enteredPassword} 
+          autoCorrect={false} 
+          secureTextEntry 
+          style={[styles.Input, wrongInput && styles.wrongInput]} 
+          placeholder='Password' 
+          onChangeText={(enteredPassword) => {
+            if(wrongInput) setWrongInput(false); 
+            setEnteredPassword(enteredPassword)}
+            }
+        />
         
         {/* Buttons */}
         {/* Login */}

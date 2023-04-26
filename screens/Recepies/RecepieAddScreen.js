@@ -9,12 +9,13 @@ import axios from "axios";
 import url from "../../variables/url";
 import { AuthContext } from "../../contextapi/AuthContext";
 
-const RecepieAddScreen = ({ navigation }) => {
+const RecepieAddScreen = ({ navigation, route }) => {
   const [recepieName, setRecepieName] = useState('');
   const [recepieProcess, setRecepieProcess] = useState('');
   const [visible, setVisible] = useState(false);
   const [image, setImage] = useState(null);
   const auth = useContext(AuthContext);
+  const { update } = route.params.callback;
 
   function AddRecepie(){
     if(recepieName.trim() == "" || recepieProcess.trim() == ""){
@@ -37,11 +38,13 @@ const RecepieAddScreen = ({ navigation }) => {
         picture: image,
         ownerId: auth.user.id
       })
-      .then(response => {})
+      .then(response => {
+        update();
+        navigation.navigate("Recepies");
+      })
       .catch(err => {
         console.log(err);
     });
-    navigation.navigate("Recepies")
   }
   useEffect(() => {
   }, [image]);

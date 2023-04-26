@@ -23,7 +23,7 @@ const LoadingScreen = ({navigation}) => {
           };
         
           fetchData().then(() => {
-            navigation.navigate("Home");
+            auth.isAdmin ? navigation.navigate("AdminHome") : navigation.navigate("Home");
           });
     }, [])
 

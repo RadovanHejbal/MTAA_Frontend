@@ -3,10 +3,10 @@ import colors from "../../variables/colors";
 
 const MessageItem = (props) => {
     
-    if(props.coache_id != null){
+    if(props.coache_id !== null){
         return (
             <View style={[styles.coacheMessage, props.userId == props.messageUserId ? {alignSelf: 'flex-end'} : {alignSelf: 'flex-start'}]}>
-                <Pressable onPress={props.navigation.navigate('CoachProfile', {id: props.coache_id})}><Text style={{fontSize: 15, color: colors.white, flex: 1, flexWrap: 'wrap'}}>{props.message}</Text></Pressable>
+                <Pressable /*onPress={props.navigation.navigate('CoachProfile', {id: props.coache_id})}*/><Text style={{fontSize: 15, color: colors.white, flex: 1, flexWrap: 'wrap'}}>{props.message}</Text></Pressable>
             </View>
         )
     }
@@ -27,6 +27,7 @@ const styles = StyleSheet.create({
         marginBottom: '3%',
         borderRadius: 30,
         backgroundColor: colors.darkgrey,
+        maxWidth: '70%'
     },
     userMessage: {
         marginHorizontal: '5%',
@@ -36,6 +37,7 @@ const styles = StyleSheet.create({
         marginBottom: '3%',
         borderRadius: 30,
         backgroundColor: colors.green,
+        maxWidth: '70%'
     }
   });
 

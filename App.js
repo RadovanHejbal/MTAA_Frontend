@@ -21,10 +21,23 @@ import CoachChat from "./screens/Coaches/CoachChat";
 import SearchActivity from "./screens/Home/SearchActivity";
 import ActivityDetails from "./screens/Home/ActivityDetails";
 import ClientsScreen from "./screens/Coaches/ClientsScreen";
+import AdminHomeScreen from "./screens/AdminScreens/AdminHomeScreen";
+import AdminCoachesScreen from "./screens/AdminScreens/AdminCoachesScreen";
+import * as NavigationBar from 'expo-navigation-bar';
+import { Platform } from 'react-native';
+import { useEffect } from "react";
 
 const Stack = createNativeStackNavigator();
 
 export default function App() {
+
+  useEffect(() => {
+    if (Platform.OS === 'android') {
+      NavigationBar.setVisibilityAsync("hidden");
+      NavigationBar.setBehaviorAsync("overlay-swipe");
+    }
+  }, []);
+
   return (
     <AuthContextProvider>
       <NavigationContainer>
@@ -49,6 +62,8 @@ export default function App() {
           <Stack.Screen name="CoachProfile" component={CoachProfile} />
           <Stack.Screen name="Profile" component={ProfileScreen} />
           <Stack.Screen name="Fitness" component={FitnessCentrumsScreen} />
+          <Stack.Screen name="AdminHome" component={AdminHomeScreen} />
+          <Stack.Screen name="AdminCoaches" component={AdminCoachesScreen} />
         </Stack.Navigator>
       </NavigationContainer>
     </AuthContextProvider>

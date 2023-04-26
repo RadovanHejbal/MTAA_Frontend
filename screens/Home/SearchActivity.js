@@ -1,9 +1,10 @@
 import { useEffect, useState } from "react";
-import { SafeAreaView, TextInput, FlatList, StyleSheet, Pressable, Text } from "react-native";
+import { SafeAreaView, TextInput, FlatList, StyleSheet, Pressable, View } from "react-native";
 import url from "../../variables/url";
 import colors from "../../variables/colors";
 import axios from "axios";
 import Item from "../../components/homescreen/Item";
+import { AntDesign } from '@expo/vector-icons'; 
 
 const SearchActivity = ({ navigation }) => {
   const [activities, setActivities] = useState([]);
@@ -35,39 +36,49 @@ const SearchActivity = ({ navigation }) => {
 
   return (
     <SafeAreaView style={styles.container}>
-      <Pressable style={styles.back} onPress={() => {navigation.navigate('Home')}}><Text>back</Text></Pressable>
-      <TextInput placeholder="search" onChangeText={searchActivity} style={styles.search} />
-      <FlatList
-        style={styles.mealsContainer}
-        data={filteredActivities}
-        renderItem={({ item }) => {
-          return <Item title={item.title} details={goToDetails} id={item.id} />;
-        }}
-      />
+      <View style={styles.back}>
+        <Pressable onPress={() => {navigation.navigate('Home')}}><AntDesign name="leftcircle" size={40} color="black" /></Pressable>
+      </View>
+      <View style={styles.search}>
+        <TextInput style={{fontSize: 30}} placeholder="Search" onChangeText={searchActivity} />
+      </View>
+      <View style={{width: '100%', height: '75%', alignItems: 'center'}}>
+        <FlatList
+          style={styles.activitiesContainer}
+          data={filteredActivities}
+          renderItem={({ item }) => {
+            return <Item title={item.title} details={goToDetails} id={item.id} />;
+          }}
+        />
+      </View>
     </SafeAreaView>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
+    width: '100%',
+    height: '100%',
     alignItems: 'center',
-    justifyContent: 'center',
+  },
+  back: {
+    width: '100%',
+    height: '10%',
+    justifyContent: 'flex-end',
+    paddingLeft: '5%'
   },
   search: {
     borderBottomWidth: 2,
     borderColor: colors.green,
-    fontSize: 24,
-    width: '70%',
-    padding: 8,
-    marginVertical: 24
+    width: '90%',
+    height: '5%',
+    justifyContent: 'flex-end',
+    marginTop: '15%',
+    marginBottom: '5%'
   },
-  mealsContainer: {
-    width: '90%'
+  activitiesContainer: {
+    width: '90%',
   },
-  back: {
-    padding: 16,
-    width: '100%',
-  }
 })
 
 export default SearchActivity;

@@ -10,10 +10,12 @@ export const AuthContext = React.createContext({
   isAdmin: false,
   login: () => {},
   logout: () => {},
+  update: () => {},
   daily: () => {},
   addMeal: () => {},
   deleteMeal: () => {},
-  addActivity: () => {}
+  addActivity: () => {},
+  deleteActivity: () => {}
 });
 
 const AuthContextProvider = (props) => {
@@ -41,6 +43,14 @@ const AuthContextProvider = (props) => {
     setIsAdmin(false);
   };
 
+  function updateHandler(username, email, password, height, weight){
+    if (username !== '') user.username = username;
+    if (email !== '') user.email = email;
+    if (password !== '') user.password = password;
+    if (height !== null) user.height = height;
+    if (weight !== null) user.weight = weight;
+  }
+
   function loginDailyHandler(data) {
     setDailyMeals(data.meals);
     setDailyActivities(data.activities);
@@ -64,15 +74,21 @@ const AuthContextProvider = (props) => {
     setDailyActivities({kcal: dailyActivities.kcal + activity.kcal, activities: [...dailyActivities.activities, activity]});
   }
 
+  function deleteActivity(activity) {
+    setDailyActivities({kcal: dailyActivities.kcal - activity.kcal, activities: dailyActivities.activities.filter(el => el.id != activity.id)});
+  }
+
   return (
     <AuthContext.Provider
       value={{
         login: loginHandler,
         logout: logoutHandler,
+        update: updateHandler,
         daily: loginDailyHandler,
         addMeal,
         deleteMeal,
         addActivity,
+        deleteActivity,
         isAdmin,
         isCoach,
         user,

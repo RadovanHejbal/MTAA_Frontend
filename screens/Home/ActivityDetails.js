@@ -44,7 +44,7 @@ const ActivityDetails = (props) => {
             date: new Date(),
             activityId: id
         }).then(response => {
-            auth.addActivity({kcal: response.data.time_amount * details.kcal, title: details.title, id: response.data.id});
+            auth.addActivity({kcal: response.data.time_amount * details.kcal, title: details.title, id: response.data.id, time: response.data.time_amount});
             props.navigation.navigate("Home");
         }).catch(err => {
             console.log(err);
@@ -57,7 +57,7 @@ const ActivityDetails = (props) => {
         <View>
             <Text style={styles.text}>{time ? (details.kcal * time).toFixed(0) : 0} kcal</Text>
         </View>
-        <TextInput placeholder="time" keyboardType="numeric" onChangeText={timeChange} style={styles.input} />
+        <TextInput placeholder="Sec" keyboardType="numeric" onChangeText={timeChange} style={styles.input} />
         <Pressable onPress={addActivity} style={styles.button}><Text style={styles.buttonText}>Add activity</Text></Pressable>
         <Pressable onPress={() => {props.navigation.navigate('SearchActivity')}} style={styles.cancel}><Text style={styles.cancelText}>Cancel</Text></Pressable>
     </SafeAreaView>
@@ -65,27 +65,35 @@ const ActivityDetails = (props) => {
 
 const styles = StyleSheet.create({
     container: {
-        alignItems: 'center'
+        height: '100%',
+        width: '100%',
+        justifyContent: 'center',
+        alignItems: 'center',
     },
     title: {
         fontWeight: 'bold',
         fontSize: 24,
-        marginVertical: 24
+        marginBottom: '5%',
+        borderBottomWidth: 2,
+        borderColor: colors.green
     },
     input: {
-        borderWidth: 1,
-        borderColor: colors.black,
+        borderBottomWidth: 1,
+        borderBottomColor: colors.green,
         fontSize: 16,
-        padding: 8
+        paddingVertical: '3%',
+        paddingHorizontal: '5%'
     },
     button: {
         backgroundColor: colors.green,
-        borderRadius: 16,
-        padding: 8,
-        marginVertical: 24
+        borderRadius: 30,
+        paddingVertical: '3%',
+        paddingHorizontal: '5%',
+        marginVertical: '5%'
     },
     buttonText: {
-        color: colors.white
+        color: colors.white,
+        fontSize: 16,
     },
     text: {
         marginBottom: 8,
@@ -93,13 +101,14 @@ const styles = StyleSheet.create({
         fontWeight: 600
     },
     cancel: {
-        backgroundColor: colors.white,
-        borderRadius: 16,
-        padding: 8,
-        marginVertical: 24
+        backgroundColor: colors.darkgrey,
+        borderRadius: 30,
+        paddingVertical: '3%',
+        paddingHorizontal: '5%'
     },
     cancelText: {
-        color: colors.green
+        color: colors.white,
+        fontSize: 16
     },
 })
 
