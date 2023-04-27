@@ -35,7 +35,7 @@ const styles = StyleSheet.create({
     middleText: {
         fontSize: 30,
         alignItems: 'center',
-        fontStyle: 'italic',
+        fontStyle: 'normal',
         fontWeight: 'bold'
     },
     item: {
