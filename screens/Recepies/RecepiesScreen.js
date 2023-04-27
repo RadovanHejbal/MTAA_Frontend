@@ -10,7 +10,6 @@ import RecepieItem from "../../components/recepies/RecepieItem";
 import { AuthContext } from "../../contextapi/AuthContext";
 import { AntDesign } from '@expo/vector-icons'; 
 import { Foundation } from '@expo/vector-icons';
-import { LogBox } from 'react-native';
 
 const RecepiesScreen = ({ navigation }) => {
   const [recepies, setRecepies] = useState([]);
@@ -32,9 +31,6 @@ const RecepiesScreen = ({ navigation }) => {
   }
   useEffect(() => {
     LoadRecepies();
-    LogBox.ignoreLogs([
-      'Non-serializable values were found in the navigation state',
-    ]);
   }, []);
   
   function searchRecepies(text){

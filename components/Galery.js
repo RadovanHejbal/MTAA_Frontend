@@ -11,7 +11,7 @@ const PickFromGalery = async () =>{
             quality: 0.5
         })
         if(image.assets[0]['height'] > 3500) return "ERROR";
-        return image.assets[0]['uri'];
+        else return image.assets[0]['uri'];
     }
     Alert.alert(
         'Permissions to galery Required',

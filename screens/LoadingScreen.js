@@ -4,6 +4,7 @@ import Axios from "axios";
 import { AuthContext } from "../contextapi/AuthContext";
 import colors from "../variables/colors";
 import url from "../variables/url";
+import AnimatedLottieView from "lottie-react-native";
 
 const LoadingScreen = ({navigation}) => {
     const auth = useContext(AuthContext);
@@ -23,27 +24,47 @@ const LoadingScreen = ({navigation}) => {
           };
         
           fetchData().then(() => {
-            auth.isAdmin ? navigation.navigate("AdminHome") : navigation.navigate("Home");
+            setTimeout(() => {
+              auth.isAdmin ? navigation.navigate("AdminHome") : navigation.navigate("Home");
+            }, 1000);
           });
     }, [])
 
     return <View style={styles.container}>
-        <Text style={styles.text}>Loading...</Text>
+      <View style={styles.loadingContainer}>
+          <AnimatedLottieView source={require('../assets/Loading.json')} autoPlay loop />
+          <View style={styles.loadingTextContainer}>
+            <Text style={styles.text}>LOADING</Text>
+          </View>
+      </View>
     </View>
 }
 
 const styles = StyleSheet.create({
     container: {
-        backgroundColor: colors.green,
-        flex: 1,
+        backgroundColor: colors.white,
         height: '100%',
         width: '100%',
         alignItems: 'center',
         justifyContent: 'center'
     },
+    loadingContainer: {
+      width: '100%',
+      height: '30%',
+      justifyContent: 'center',
+      alignItems: 'center',
+    },
+    loadingTextContainer: {
+      marginTop: '20%',
+      width: '100%',
+      height: '20%',
+      alignItems: 'center',
+    },
     text: {
-        color: colors.white,
-        fontSize: 32
+        color: colors.darkgrey,
+        fontSize: 32,
+        fontStyle: 'italic',
+        fontWeight: 'bold'
     }
 })
 

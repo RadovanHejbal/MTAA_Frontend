@@ -2,14 +2,15 @@ import { View, Text, StyleSheet, Pressable } from "react-native";
 import { MaterialIcons } from '@expo/vector-icons';
 import colors, { black } from "../variables/colors";
 import { FontAwesome } from '@expo/vector-icons'; 
+import {useNetInfo} from '@react-native-community/netinfo';
 
 const TopScreen = ( {navigation} ) => {
     return <View style={styles.container}>
         <Pressable onPress={() => navigation.navigate("Profile")} style={styles.item}>
             <FontAwesome name="user" size={48} color="black" />
-        </Pressable>
+        </Pressable> 
         <View style={styles.middleItem}>
-            <Text style={styles.middleText}>FitMe</Text>
+            {useNetInfo().isConnected ? <Text style={styles.middleText}>FitMe</Text> : <Text style={[styles.middleText, {color: 'red'}]}>Offline</Text>}
         </View>
         <Pressable onPress={() => navigation.navigate("Fitness")} style={styles.item}>
             <MaterialIcons name="fitness-center" size={48} color="black" />

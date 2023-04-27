@@ -24,18 +24,33 @@ import ClientsScreen from "./screens/Coaches/ClientsScreen";
 import AdminHomeScreen from "./screens/AdminScreens/AdminHomeScreen";
 import AdminCoachesScreen from "./screens/AdminScreens/AdminCoachesScreen";
 import * as NavigationBar from 'expo-navigation-bar';
-import { Platform } from 'react-native';
+import { LogBox, Platform } from 'react-native';
 import { useEffect } from "react";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const Stack = createNativeStackNavigator();
 
 export default function App() {
+
+  const DeleteData = async () => {
+    try {
+      await AsyncStorage.clear();
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   useEffect(() => {
     if (Platform.OS === 'android') {
       NavigationBar.setVisibilityAsync("hidden");
       NavigationBar.setBehaviorAsync("overlay-swipe");
     }
+    LogBox.ignoreLogs([
+      'Non-serializable values were found in the navigation state',
+      'Each child in a list should have a unique "key" prop',
+      'Cannot connect to Metro'
+    ]);
+    DeleteData();
   }, []);
 
   return (

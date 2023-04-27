@@ -10,6 +10,8 @@ import { AuthContext } from "../../contextapi/AuthContext";
 import Message from "../../components/coaches/Message";
 import { MaterialCommunityIcons } from '@expo/vector-icons'; 
 import { AntDesign } from '@expo/vector-icons'; 
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import {useNetInfo} from '@react-native-community/netinfo';
 
 let socket;
 
@@ -19,13 +21,32 @@ const CoachChat = ({navigation}) => {
     const [sendingMessages, setSendingMessages] = useState([]);
     const [message, setMessage] = useState("");
     const auth = useContext(AuthContext);
+    const StoreData = async (data) => {
+        try {
+            const dataToStore = JSON.stringify(data);
+            await AsyncStorage.setItem(`${id}`, dataToStore);
+            GetData();
+        } catch (error) {
+            console.log(error);
+        }
+    };
+    const GetData = async () => {
+        try {
+            const dataFromStorage = await AsyncStorage.getItem(`${id}`);
+            const data = dataFromStorage != null ? JSON.parse(dataFromStorage) : null;
+            setMessages(data);
+        } catch (error) {
+            console.log(error);
+        }
+    };
 
     useEffect(() => {
         axios.get(`${url}/coaches/conversation-messages/${id}`).then(response => {
-            setMessages(response.data);
+            StoreData(response.data)
         }).catch(err => {
             console.log(err);
         })
+        GetData();
 
         socket = io(url);
         socket.emit('join', {relationId: id});
@@ -48,6 +69,7 @@ const CoachChat = ({navigation}) => {
     }, [navigation])
 
     function SendMessage() {
+        if(!useNetInfo().isConnected) return;
         if(message.trim() == "") {
             return;
         }

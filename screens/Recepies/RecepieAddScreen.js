@@ -46,6 +46,26 @@ const RecepieAddScreen = ({ navigation, route }) => {
         console.log(err);
     });
   }
+  async function PickPicture(){
+    const temp = await PickFromGalery();
+    setVisible(false);
+    if(temp === "ERROR")
+    {
+      Alert.alert(
+        'Image size',
+        'The size of the embedded image is too large',
+        [
+          {
+            text: 'OK'
+          }
+        ],
+        { cancelable: false }
+      );
+      setImage(null);
+    }
+    else setImage(temp);
+  }
+
   useEffect(() => {
   }, [image]);
 
@@ -54,7 +74,7 @@ const RecepieAddScreen = ({ navigation, route }) => {
         <View style={styles.topSection}>
           <View style={styles.addPhoto}>
             <Pressable onPress={() => setVisible(true)}>
-                {image != null? (<Image source={{uri: image}} style={{ borderWidth: 10, width: Dimensions.get('window').width * 0.31, height: Dimensions.get('window').width * 0.31, resizeMode: 'center', borderRadius: 20}}></Image>):(<MaterialIcons name="add-a-photo" size={70} color="black" />)}
+                {image !== null? (<Image source={{uri: image}} style={{ borderWidth: 10, width: Dimensions.get('window').width * 0.3, height: Dimensions.get('window').height * 0.15, resizeMode: 'center', borderRadius: 20}}></Image>):(<MaterialIcons name="add-a-photo" size={70} color="black" />)}
             </Pressable>
           </View>
           <View style={styles.rightTopSection}>
@@ -93,24 +113,7 @@ const RecepieAddScreen = ({ navigation, route }) => {
                     <Pressable onPress={async () => {setImage(await PickFromCamera()); setVisible(false)}}><Text style={{fontSize: 15, color: colors.white}}>Camera</Text></Pressable>
                 </View>
                 <View style={styles.chooseButton}>
-                    <Pressable onPress={async () => {
-                        setImage(await PickFromGalery()); 
-                        setVisible(false);
-                        if(image == "ERROR")
-                        {
-                            Alert.alert(
-                                'Image size',
-                                'The size of the embedded image is too large',
-                                [
-                                  {
-                                    text: 'OK'
-                                  }
-                                ],
-                                { cancelable: false }
-                              );
-                            setImage(null);
-                        }
-                    }}><Text style={{fontSize: 15, color: colors.white}}>Galery</Text></Pressable>
+                    <Pressable onPress={PickPicture}><Text style={{fontSize: 15, color: colors.white}}>Galery</Text></Pressable>
                 </View>
                 <View style={{marginLeft: '2%'}}>
                     <Pressable onPress={() => setVisible(false)}><AntDesign name="closecircle" size={30} color="black" /></Pressable>
@@ -136,7 +139,8 @@ const styles = StyleSheet.create({
         flexDirection: 'row'
     },
     addPhoto: {
-        height: '100%',
+        marginTop: '4%',
+        height: '90%',
         width: '35%',
         justifyContent: 'center',
         alignItems: 'center',

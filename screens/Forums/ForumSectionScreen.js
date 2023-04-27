@@ -32,7 +32,8 @@ const ForumSectionScreen = ({ navigation }) => {
                 closed_at: new Date()
               })
               .then(response => {
-                navigation.navigate("Home");
+                route.params.reloud();
+                navigation.navigate("Forums");
               })
               .catch(err => {
                 console.log(err);

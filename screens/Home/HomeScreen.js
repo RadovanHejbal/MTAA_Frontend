@@ -85,7 +85,7 @@ const HomeScreen = ({ navigation }) => {
           </View>
           {
             mealsVisible?
-              <View style={{alignItems: 'center', height: '75%'}}>
+              <View style={{alignItems: 'center', height: '60%'}}>
                 <FlatList style={styles.ownedItem} data={auth.dailyMeals.meals} renderItem={({item}) => {
                   return <OwnedItem item={item} delete={deleteMeal} />
                 }}/>
@@ -101,7 +101,7 @@ const HomeScreen = ({ navigation }) => {
           </View>
           {
             acvtivityVisible?
-              <View style={{alignItems: 'center', height: '70%'}}>
+              <View style={{alignItems: 'center', height: '60%'}}>
                 <FlatList style={styles.ownedItem} data={auth.dailyActivities.activities} renderItem={({item}) => {
                   return <OwnedItem item={item} delete={DeleteActivity} />
                 }}/>
@@ -126,7 +126,8 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     height: '20%',
     width: '100%',
-    marginVertical: '3%'
+    marginVertical: '3%',
+    marginTop: '10%'
   },
   ownedItem: {
     paddingHorizontal: '3%',

@@ -15,7 +15,7 @@ const CoachesScreen = ({navigation}) => {
 
   useEffect(() => {
     axios
-      .get(`${url}/coaches`)
+      .get(`${url}/coaches/${auth.user.id}`)
       .then((response) => {
         setCoaches(response.data);
       })
@@ -23,10 +23,6 @@ const CoachesScreen = ({navigation}) => {
         console.log(err);
       });
   }, []);
-
-  function openCoachHandler(id) {
-
-  }
 
   return (
     <SafeAreaView style={styles.container}>

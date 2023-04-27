@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
 import url from "../variables/url";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export const AuthContext = React.createContext({
   user: null,
@@ -24,7 +25,13 @@ const AuthContextProvider = (props) => {
   const [dailyActivities, setDailyActivities] = useState(null);
   const [isCoach, setIsCoach] = useState(false);
   const [isAdmin, setIsAdmin] = useState(false);
-
+  const DeleteData = async () => {
+    try {
+      await AsyncStorage.clear();
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   function loginHandler(data) {
     if(data.role == "coach") {
@@ -36,6 +43,7 @@ const AuthContextProvider = (props) => {
   };
 
   function logoutHandler() {
+    DeleteData();
     setUser(null);
     setDailyActivities(null);
     setDailyMeals(null);

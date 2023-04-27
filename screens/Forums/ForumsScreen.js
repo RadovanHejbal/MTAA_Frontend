@@ -49,13 +49,12 @@ const ForumsScreen = ({ navigation }) => {
         opened_at: new Date()
       })
       .then(response => {
-        console.log("succes");
+        setForumTitle("");
+        LoadForums();
       })
       .catch(err => {
-      console.log(err);
-    });
-    setForumTitle("");
-    LoadForums();
+        console.log(err);
+      });
   }
 
   function searchForums(text){
@@ -71,7 +70,8 @@ const ForumsScreen = ({ navigation }) => {
       title: forumTitle, 
       id: forumId, 
       closed_at: closed_at, 
-      owner_id: owner_id
+      owner_id: owner_id,
+      reloud: LoadForums
     });
   }
 
@@ -96,7 +96,7 @@ const ForumsScreen = ({ navigation }) => {
                 <Text style={{color: colors.white, fontSize: 20, fontWeight: 'bold', borderBottomColor: colors.green, borderBottomWidth: 2}}>ADD FORUM</Text>
                 <TextInput maxLength={16} onChangeText={(text) => {setForumTitle(text)}} style={{marginTop: '10%', backgroundColor: colors.white, fontSize: 15, width: '100%', textAlign: 'center', borderRadius: 30}} placeholder="TITLE"></TextInput>
                 <Pressable onPress={AddForum} style={{marginTop: '10%', backgroundColor: colors.green, width: '20%', borderRadius: 30}}><Text style={{textAlign: 'center', color: colors.white, fontSize: 15, fontWeight: 'bold'}}>ADD</Text></Pressable>
-            </View>
+            </View> 
         ) :null}
         <Pressable onPress={() => setVisible(!visible)} style={styles.AddButton}>
             {visible? <Ionicons name="close-circle" size={48} color="red" /> : <Ionicons name="add-circle-sharp" size={48} color={colors.green} />}

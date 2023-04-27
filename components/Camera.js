@@ -4,7 +4,6 @@ import { Alert, Linking } from 'react-native';
 const PickFromCamera = async () =>{
     const {status} = await ImagePicker.requestCameraPermissionsAsync();
     if(status == 'granted'){
-        console.log("camera");
         const image = await ImagePicker.launchCameraAsync({
             mediaTypes: ImagePicker.MediaTypeOptions.Images,
             allowsEditing:true,

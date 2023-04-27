@@ -97,9 +97,9 @@ const FitnessCentrumsScreen = ({ navigation }) => {
               longitude: location.coords.longitude,
               latitudeDelta: 0.1,
               longitudeDelta: 0.005
-            }}
-          />):
-            (<MapView style={styles.mapContainer} />)
+            }}/>
+          ):
+            (<MapView style={styles.mapContainer} />)          
       }
       <View style={styles.foundContainer}>
         <View style={styles.foundTopSection}>
