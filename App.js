@@ -24,21 +24,14 @@ import ClientsScreen from "./screens/Coaches/ClientsScreen";
 import AdminHomeScreen from "./screens/AdminScreens/AdminHomeScreen";
 import AdminCoachesScreen from "./screens/AdminScreens/AdminCoachesScreen";
 import * as NavigationBar from 'expo-navigation-bar';
-import { LogBox, Platform } from 'react-native';
-import { useEffect } from "react";
+import { LogBox, Platform, Text, View } from 'react-native';
+import { useEffect, useState } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import colors from "./variables/colors";
 
 const Stack = createNativeStackNavigator();
 
 export default function App() {
-
-  const DeleteData = async () => {
-    try {
-      await AsyncStorage.clear();
-    } catch (error) {
-      console.log(error);
-    }
-  };
 
   useEffect(() => {
     if (Platform.OS === 'android') {
@@ -50,7 +43,8 @@ export default function App() {
       'Each child in a list should have a unique "key" prop',
       'Cannot connect to Metro'
     ]);
-    DeleteData();
+
+
   }, []);
 
   return (

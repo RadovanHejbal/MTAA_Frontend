@@ -7,6 +7,7 @@ import { useContext, useState } from "react";
 import { AuthContext } from "../contextapi/AuthContext";
 import url from "../variables/url";
 import axios from "axios";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const ProfileScreen = ({ navigation }) => {
   const [username, setUsername] = useState('');

@@ -1,5 +1,5 @@
 import { View, StyleSheet, SafeAreaView, FlatList, Text, Pressable } from "react-native";
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../../contextapi/AuthContext";
 import TopScreen from "../../components/TopScreen";
 import NavBar from "../../components/NavBar";
@@ -9,11 +9,16 @@ import axios from "axios";
 import url from "../../variables/url";
 import colors from "../../variables/colors";
 import { AntDesign } from '@expo/vector-icons';
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const HomeScreen = ({ navigation }) => {
   const auth = useContext(AuthContext);
   const [mealsVisible, setMealsVisible] = useState(false);
   const [acvtivityVisible, setActivityVisible] = useState(false);
+
+  /*useEffect(() => {
+    AsyncStorage.setItem('token', "ahoj");
+  }, [])*/
 
   function addMeal() {
     navigation.navigate("SearchMeal");

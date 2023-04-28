@@ -5,6 +5,7 @@ import { AuthContext } from "../contextapi/AuthContext";
 import colors from "../variables/colors";
 import url from "../variables/url";
 import AnimatedLottieView from "lottie-react-native";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const LoadingScreen = ({navigation}) => {
     const auth = useContext(AuthContext);
@@ -16,10 +17,10 @@ const LoadingScreen = ({navigation}) => {
         
               const activitiesResponse = await Axios.get(`${url}/users/daily/activities/${currentDate}/${auth.user.id}`);
               auth.daily({meals: mealsResponse.data, activities: activitiesResponse.data});
-                    
             } catch (err) {
               console.log(err);
-              // SOMETHING WENT WRONG, GET ME BACK TO LOGIN PAGE WITH ERROR MESSAGE
+              AsyncStorage.clear();
+              navigation.navigate('Login');
             }
           };
         

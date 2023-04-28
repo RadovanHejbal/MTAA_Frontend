@@ -82,6 +82,8 @@ const ForumSectionScreen = ({ navigation }) => {
     LoadMessages();
     setMessage('');
   }
+
+  console.log(forumMessages);
   
   return (
    <SafeAreaView style={styles.container}>
