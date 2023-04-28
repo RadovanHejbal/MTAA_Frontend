@@ -11,7 +11,6 @@ import Message from "../../components/coaches/Message";
 import { MaterialCommunityIcons } from '@expo/vector-icons'; 
 import { AntDesign } from '@expo/vector-icons'; 
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import {useNetInfo} from '@react-native-community/netinfo';
 
 let socket;
 
@@ -69,7 +68,6 @@ const CoachChat = ({navigation}) => {
     }, [navigation])
 
     function SendMessage() {
-        if(!useNetInfo().isConnected) return;
         if(message.trim() == "") {
             return;
         }
@@ -79,7 +77,7 @@ const CoachChat = ({navigation}) => {
         socket.emit('message', {text: message, relationId: id, userId: auth.user.id, uuid: uu, date: date});
         setMessages(previous => {
             return [...previous, {id: uu, text: message, relation_id: id, owner_id: auth.user.id, date: date}];
-        })
+        });
         setMessage("");
     }
 

@@ -103,7 +103,7 @@ const ForumSectionScreen = ({ navigation }) => {
         data={forumMessages}
         keyExtractor={(item) => item.id}
         renderItem={({item}) => {
-          if(item != null) return <MessageItem message={item.text} userId={auth.user.id} messageUserId={item.user_id} coache_id={item.coach_id} navigation={navigation}/>;
+          return <MessageItem message={item.text} userId={auth.user.id} messageUserId={item.user_id} coache_id={item.coach_id} navigation={navigation}/>;
         }}
       />
     </View>

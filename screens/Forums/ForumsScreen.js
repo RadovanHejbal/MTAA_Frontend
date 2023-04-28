@@ -9,6 +9,7 @@ import { AuthContext } from "../../contextapi/AuthContext";
 import { useContext } from "react";
 import url from '../../variables/url';
 import ForumItem from "../../components/forums/ForumItem";
+import { Foundation } from '@expo/vector-icons';
 
 const ForumsScreen = ({ navigation }) => {
   const [visible, setVisible] = useState(false);
@@ -83,14 +84,22 @@ const ForumsScreen = ({ navigation }) => {
             <Text style={styles.Section}>Forums</Text>
         </View>
         <TextInput style={styles.Search} placeholder="SEARCH" onChangeText={searchForums}></TextInput>
-        <View style={styles.ForumsContainer}>
-          <FlatList
-            data={filteredForums}
-            renderItem={({item}) => {
-              if(item != null) return <ForumItem title={item.title} id={item.id} votes={item.upvotes} section={goToForumSection} closed_at={item.closed_at} owner_id={item.owner_id}/>;
-            }}
-          />
-        </View>
+        {
+          forums.length > 0 ?
+            <View style={styles.ForumsContainer}>
+              <FlatList
+                data={filteredForums}
+                keyExtractor={(item) => item.id}
+                renderItem={({item}) => {
+                  return <ForumItem title={item.title} id={item.id} votes={item.upvotes} section={goToForumSection} closed_at={item.closed_at} owner_id={item.owner_id}/>;
+                }} 
+              />
+            </View> :
+            <View style={{height: '84%', justifyContent: 'center', alignItems: 'center'}}>
+              <Text style={{fontSize: 18, color: 'lightgrey'}}>There is no created forums</Text>
+              <Foundation name="magnifying-glass" size={80} color="lightgrey" />
+            </View>
+        }
         {visible? (
             <View style={styles.AddMenu}>
                 <Text style={{color: colors.white, fontSize: 20, fontWeight: 'bold', borderBottomColor: colors.green, borderBottomWidth: 2}}>ADD FORUM</Text>
