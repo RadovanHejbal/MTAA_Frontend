@@ -6,7 +6,7 @@ import {useNetInfo} from '@react-native-community/netinfo';
 
 const TopScreen = ( {navigation} ) => {
     return <View style={styles.container}>
-        <Pressable onPress={() => navigation.navigate("Profile")} style={styles.item}>
+        <Pressable onPress={() => navigation.replace("Profile")} style={styles.item}>
             <FontAwesome name="user" size={48} color="black" />
         </Pressable> 
         <View style={styles.middleItem}>

@@ -55,6 +55,19 @@ const AdminCoachesScreen = ({ navigation }) => {
             LoadUsers();
             setDescription('');
             setSpecialization('');
+            axios.get(`${url}/users/expo/${user.id}`).then(response => {
+              fetch('https://exp.host/--/api/v2/push/send', {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json'
+              },
+              body: JSON.stringify({
+                to: response.data.token,
+                title: 'You are coach!',
+                body: 'You role have been changed to coach'
+              })
+            })
+            })
           })
           .catch(err => {
             console.log(err);

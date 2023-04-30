@@ -14,6 +14,7 @@ import url from "../variables/url";
 import Axios from "axios";
 import { AuthContext } from "../contextapi/AuthContext";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import * as Notifications from 'expo-notifications';
 
 const LoginScreen = ({ navigation }) => {
   const [enteredUsername, setEnteredUsername] = useState("");
@@ -28,7 +29,6 @@ const LoginScreen = ({ navigation }) => {
     if (token) {
       try {
         const response = await Axios.get(`${url}/users/token/${token}`);
-        console.log(response.data.user_id + " userId");
         return response.data.user_id;
       } catch (err) {
         console.log(err);
@@ -50,6 +50,33 @@ const LoginScreen = ({ navigation }) => {
       .catch((err) => {
         console.log(err);
       });
+  }
+
+  async function createExpo(userId) {
+    const { status } = await Notifications.getPermissionsAsync();
+      let finalStatus = status;
+
+      if(finalStatus !== 'granted') {
+        const {status} = await Notifications.requestPermissionsAsync();
+        finalStatus = status;
+      }
+      
+      if(finalStatus !== 'granted') {
+        Alert.alert('Expo permission required', 'Push notifications disabled');
+        return;
+      }
+    Notifications.getExpoPushTokenAsync().then(data => {
+      Axios.post(`${url}/users/expo/create`, {
+        id: userId,
+        token: data.data
+      }).then(response => {
+        console.log(response.data);
+      }).catch(err => {
+        console.log(err);
+      })
+    }).catch(err => {
+      console.log(err);
+    })
   }
 
   useEffect(() => {
@@ -75,8 +102,9 @@ const LoginScreen = ({ navigation }) => {
         } else {
           auth.login(response.data);
         }
-        setLoading(false);
-        navigation.navigate("Loading");
+        createExpo(response.data.id);
+        navigation.replace("Loading");
+        setTimeout(() => {setLoading(false)}, 1000);
       } catch (err) {
         setWrongInput(true);
       }
@@ -108,6 +136,7 @@ const LoginScreen = ({ navigation }) => {
         auth.login(response.data);
       }
       createToken(response.data.id);
+      createExpo(response.data.id);
       navigation.navigate("Loading");
     } catch (err) {
       setWrongInput(true);

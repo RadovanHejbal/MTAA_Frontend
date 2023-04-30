@@ -24,12 +24,21 @@ import ClientsScreen from "./screens/Coaches/ClientsScreen";
 import AdminHomeScreen from "./screens/AdminScreens/AdminHomeScreen";
 import AdminCoachesScreen from "./screens/AdminScreens/AdminCoachesScreen";
 import * as NavigationBar from 'expo-navigation-bar';
-import { LogBox, Platform, Text, View } from 'react-native';
-import { useEffect, useState } from "react";
-import AsyncStorage from "@react-native-async-storage/async-storage";
-import colors from "./variables/colors";
+import * as Notifications from 'expo-notifications';
+import { Alert, LogBox, Platform } from 'react-native';
+import { useEffect } from "react";
 
 const Stack = createNativeStackNavigator();
+
+Notifications.setNotificationHandler({
+  handleNotification: async () => {
+    return {
+      shouldPlaySound: false,
+      shouldSetBadge: false,
+      shouldShowAlert: true,
+    }
+  }
+})
 
 export default function App() {
 

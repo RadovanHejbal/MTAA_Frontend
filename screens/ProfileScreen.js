@@ -55,7 +55,7 @@ const ProfileScreen = ({ navigation }) => {
   }
   function LogOut(){
     auth.logout();
-    navigation.navigate("Login"); 
+    navigation.replace("Login"); 
   }
 
   return (

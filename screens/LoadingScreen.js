@@ -20,13 +20,13 @@ const LoadingScreen = ({navigation}) => {
             } catch (err) {
               console.log(err);
               AsyncStorage.clear();
-              navigation.navigate('Login');
+              navigation.replace('Login');
             }
           };
         
           fetchData().then(() => {
             setTimeout(() => {
-              auth.isAdmin ? navigation.navigate("AdminHome") : navigation.navigate("Home");
+              auth.isAdmin ? navigation.replace("AdminHome") : navigation.replace("Home");
             }, 1000);
           });
     }, [])
