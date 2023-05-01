@@ -19,7 +19,7 @@ const SignUpScreen = ({ navigation }) => {
   const [pressed, setPressed] = useState(false);
 
   function signupHandler() {
-    if(firstname.trim() == "" || lastname.trim() == "" || username.trim() == "" || email.trim() == "" || password.trim() == "" || !gender || !height || !weight || !age) {
+    if(firstname.trim() == "" || lastname.trim() == "" || username.trim() == "" || email.trim() == "" || password.trim() == "" || !gender || !height || !weight || !age || !email.includes('@')) {
       setPressed(true);
       return;
     }
@@ -37,7 +37,7 @@ const SignUpScreen = ({ navigation }) => {
       gender: gender,
       age: age
     }).then(response => {
-      navigation.navigate("Login");
+      Alert.alert('Successfully registered', 'You can log in now', [{text: 'Okay', onPress: () => {navigation.navigate("Login")}}])
     }).catch(err => {
       Alert.alert(
         'Used username',

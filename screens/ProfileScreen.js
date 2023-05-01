@@ -18,8 +18,8 @@ const ProfileScreen = ({ navigation }) => {
   const auth = useContext(AuthContext);
 
   function UpdateProfile(){
-    if((username === auth.user.username || username.trim() === "") && (password === auth.user.password || password.trim() === "") && (email === auth.user.email || email.trim() === "") && 
-    (weight === auth.user.weight || weight === null) && (height === auth.user.height || height === null))
+    if(((username === auth.user.username || username.trim() === "") && (password === auth.user.password || password.trim() === "") && (email === auth.user.email || email.trim() === "") && 
+    (weight === auth.user.weight || weight === null) && (height === auth.user.height || height === null)) || (email != auth.user.email && !email.includes('@')))
     {
       return;
     }
