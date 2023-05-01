@@ -46,14 +46,18 @@ const AuthContextProvider = (props) => {
   async function logoutHandler() {
     const token = await AsyncStorage.getItem("token");
 
-    if(!token) {
-      return;
+    if(token) {
+      axios.delete(`${url}/users/token/delete/${token}`).then(response => {
+        console.log(response.data);
+      }).catch(err => {
+        console.log(err);
+      });
     }
-    axios.delete(`${url}/users/token/delete/${token}`);
+    
     Notifications.getExpoPushTokenAsync().then(data => {
       if(data.data) {
         axios.delete(`${url}/users/expo/delete/${data.data}`).then(response => {
-        
+          console.log(response.data);
         }).catch(err => {
           console.log(err);
         })

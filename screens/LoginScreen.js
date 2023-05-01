@@ -31,7 +31,6 @@ const LoginScreen = ({ navigation }) => {
         const response = await Axios.get(`${url}/users/token/${token}`);
         return response.data.user_id;
       } catch (err) {
-        console.log(err);
         return null;
       }
     } else {
@@ -72,10 +71,8 @@ const LoginScreen = ({ navigation }) => {
       }).then(response => {
         
       }).catch(err => {
-        console.log(err);
       })
     }).catch(err => {
-      console.log(err);
     })
   }
 
