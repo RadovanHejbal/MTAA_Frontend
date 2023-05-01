@@ -14,6 +14,7 @@ import url from "../variables/url";
 import Axios from "axios";
 import { AuthContext } from "../contextapi/AuthContext";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import AnimatedLottieView from "lottie-react-native";
 import * as Notifications from 'expo-notifications';
 
 const LoginScreen = ({ navigation }) => {
@@ -150,7 +151,9 @@ const LoginScreen = ({ navigation }) => {
           flex: 1,
         }}
       >
-        <Text style={{ color: colors.white }}>Loading Fitme</Text>
+        <AnimatedLottieView source={require('../assets/FitMeLoading.json')} autoPlay loop />
+        <Text style={{ color: colors.white, fontSize: 12 }}>Loading</Text>
+        <Text style={{ color: colors.white, fontSize: 17, fontStyle: 'italic', fontWeight: 'bold' }}>FitMe</Text>
       </View>
     );
   }
@@ -220,7 +223,7 @@ const styles = StyleSheet.create({
   LoginContainer: {
     height: "100%",
     width: "100%",
-    justifyContent: "flex-end",
+    justifyContent: "flex-end", 
     backgroundColor: colors.green,
   },
   Logo: {

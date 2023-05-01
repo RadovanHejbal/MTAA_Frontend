@@ -64,7 +64,7 @@ const AdminCoachesScreen = ({ navigation }) => {
               body: JSON.stringify({
                 to: response.data.token,
                 title: 'You are coach!',
-                body: 'You role have been changed to coach'
+                body: 'Your role has been changed to coach.'
               })
             })
             })
