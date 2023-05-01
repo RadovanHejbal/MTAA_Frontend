@@ -52,9 +52,10 @@ export default function App() {
       })
     }
     LogBox.ignoreLogs([
-      'Non-serializable values were found in the navigation state',
-      'Each child in a list should have a unique "key" prop',
-      'Cannot connect to Metro'
+      'Non-serializable values were found in the navigation state', 
+      'Each child in a list should have a unique "key" prop', // z nejakého dovodu furt ukazuje error pri flat liste s klúčami aj ked každý child ma daný jedinečný kluč
+      'Cannot connect to Metro', // len kvoli vypnutiu wifi aby nevyskakoval warning
+      'Calling getExpoPushTokenAsync without specifying a projectId is deprecated and will no longer be supported in SDK 49+' // nie podstatné, len skrz nerušenia v aplikacií
     ]);
 
 
