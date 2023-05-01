@@ -11,6 +11,7 @@ import Message from "../../components/coaches/Message";
 import { MaterialCommunityIcons } from '@expo/vector-icons'; 
 import { AntDesign } from '@expo/vector-icons'; 
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import * as Notifications from 'expo-notifications';
 
 let socket;
 
@@ -20,16 +21,17 @@ const CoachChat = ({navigation}) => {
     const [sendingMessages, setSendingMessages] = useState([]);
     const [message, setMessage] = useState("");
     const auth = useContext(AuthContext);
-    const StoreData = async (data) => {
+
+    async function storeData (data) {
         try {
             const dataToStore = JSON.stringify(data);
             await AsyncStorage.setItem(`${id}`, dataToStore);
-            GetData();
+            getData();
         } catch (error) {
             console.log(error);
         }
     };
-    const GetData = async () => {
+    async function getData () {
         try {
             const dataFromStorage = await AsyncStorage.getItem(`${id}`);
             const data = dataFromStorage != null ? JSON.parse(dataFromStorage) : null;
@@ -41,17 +43,26 @@ const CoachChat = ({navigation}) => {
 
     useEffect(() => {
         axios.get(`${url}/coaches/conversation-messages/${id}`).then(response => {
-            StoreData(response.data)
+            storeData(response.data)
         }).catch(err => {
             console.log(err);
         })
-        GetData();
+        getData();
+
+        Notifications.setNotificationHandler({
+            handleNotification: async () => {
+              return {
+                shouldPlaySound: false,
+                shouldSetBadge: false,
+                shouldShowAlert: false,
+              }
+            }
+          })
 
         socket = io(url);
         socket.emit('join', {relationId: id});
         socket.on('message', (data) => {
             if(auth.user.id != data.userId) {
-                console.log(data);
                 setMessages(previous => {
                     return [...previous, data];
                 })
@@ -63,6 +74,15 @@ const CoachChat = ({navigation}) => {
         return () => {
             socket.off('message');
             socket.disconnect();
+            Notifications.setNotificationHandler({
+                handleNotification: async () => {
+                  return {
+                    shouldPlaySound: false,
+                    shouldSetBadge: false,
+                    shouldShowAlert: true,
+                  }
+                }
+              })
         }
 
     }, [navigation])
@@ -84,7 +104,7 @@ const CoachChat = ({navigation}) => {
     return <SafeAreaView style={styles.container}>
         <View style={styles.topSection}>
             <Pressable style={{height: '100%', width: '15%', justifyContent: 'center', alignItems: 'center'}} 
-                onPress={() => auth.isCoach ? navigation.navigate("Clients") : navigation.navigate("MyCoaches")}>
+                onPress={() => auth.isCoach ? navigation.replace("Clients") : navigation.replace("MyCoaches")}>
                     <AntDesign name="leftcircle" size={40} color="black" />
             </Pressable>
             <View style={{justifyContent: 'center', alignItems: 'flex-end', width: '80%'}}>

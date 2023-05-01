@@ -70,7 +70,7 @@ const LoginScreen = ({ navigation }) => {
         id: userId,
         token: data.data
       }).then(response => {
-        console.log(response.data);
+        
       }).catch(err => {
         console.log(err);
       })

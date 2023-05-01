@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import axios from "axios";
 import url from "../variables/url";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import * as Notifications from 'expo-notifications';
 
 export const AuthContext = React.createContext({
   user: null,
@@ -42,7 +43,23 @@ const AuthContextProvider = (props) => {
     setUser(data);
   };
 
-  function logoutHandler() {
+  async function logoutHandler() {
+    const token = await AsyncStorage.getItem("token");
+
+    if(!token) {
+      return;
+    }
+    axios.delete(`${url}/users/token/delete/${token}`);
+    Notifications.getExpoPushTokenAsync().then(data => {
+      if(data.data) {
+        axios.delete(`${url}/users/expo/delete/${data.data}`).then(response => {
+        
+        }).catch(err => {
+          console.log(err);
+        })
+      }
+    });
+
     DeleteData();
     setUser(null);
     setDailyActivities(null);

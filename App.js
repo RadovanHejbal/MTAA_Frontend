@@ -46,6 +46,10 @@ export default function App() {
     if (Platform.OS === 'android') {
       NavigationBar.setVisibilityAsync("hidden");
       NavigationBar.setBehaviorAsync("overlay-swipe");
+      Notifications.setNotificationChannelAsync('default', {
+        name: 'default',
+        importance: Notifications.AndroidImportance.DEFAULT
+      })
     }
     LogBox.ignoreLogs([
       'Non-serializable values were found in the navigation state',
